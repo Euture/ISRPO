@@ -8,6 +8,12 @@ namespace ISRPO
 {
     class Program
     {
+        static void Main(string[] args)
+        {
+
+        }
+
+
         string[] TYPES = new string[]
         {
             "Седан",
@@ -19,13 +25,14 @@ namespace ISRPO
             "Спец техника"
         };
 
+        //Структура "Автомобиль"
         public struct Car
         {
-            private string _mark;
-            private string _manufacturer;
-            private string _type;
-            private DateTime _date_of_manufacture;
-            private DateTime _date_of_registration;
+            private string _mark;                   //Марка
+            private string _manufacturer;           //Производитель
+            private string _type;                   //Тип
+            private DateTime _date_of_manufacture;  //Дата производства
+            private DateTime _date_of_registration; //Дата регистрации
 
             string mark
             {
@@ -64,16 +71,19 @@ namespace ISRPO
                 }
             }
 
+            //Метод вывода списка всех элементов 
             public void PrintCars()
             {
 
             }
-            
+
+            //Метод ввода нового элемента 
             public void WriteNew()
             {
 
             }
-            
+
+            //Метод вывода отфильтрованного списка элементов 
             public void PrintFilterCars()
             {
 
@@ -81,20 +91,16 @@ namespace ISRPO
 
         }
 
+        //Структура "Фильтр"
         public struct Filter
         {
-            string mark;
-            string manufacture;
-            string type;
-            DateTime since_date_of_manufacture;
-            DateTime till_date_of_manufacture;
-            DateTime since_date_of_registration;
-            DateTime till_date_of_registration;
-
-        }
-
-        static void Main(string[] args)
-        {
+            string mark;                            //Марка
+            string manufacture;                     //Производитель
+            string type;                            //Тип
+            DateTime since_date_of_manufacture;     //Дата производства начало
+            DateTime till_date_of_manufacture;      //Дата производства окончание
+            DateTime since_date_of_registration;    //Дата регистрации начало
+            DateTime till_date_of_registration;     //Дата регистрации окончание
 
         }
     }
