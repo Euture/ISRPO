@@ -64,7 +64,20 @@ namespace ISRPO
                 }
             }
 
+            public void PrintCars()
+            {
+
+            }
             
+            public void WriteNew()
+            {
+
+            }
+            
+            public void PrintFilterCars()
+            {
+
+            }
 
         }
 
