@@ -29,47 +29,10 @@ namespace ISRPO
         public struct Car
         {
             private string _mark;                   //Марка
-            private string _manufacturer;           //Производитель
-            private string _type;                   //Тип
-            private DateTime _date_of_manufacture;  //Дата производства
-            private DateTime _date_of_registration; //Дата регистрации
-
-            string mark
-            {
-                get
-                {
-                    return _mark;
-                }
-            }
-            string manufacturer
-            {
-                get
-                {
-                    return _manufacturer;
-                }
-            }
-            string type
-            {
-                get
-                {
-                    return _type;
-                }
-            }
-            DateTime date_of_manufacture
-            {
-                get
-                {
-                    return _date_of_manufacture;
-;
-                }
-            }
-            DateTime date_of_registration
-            {
-                get
-                {
-                    return _date_of_registration;
-                }
-            }
+            private string manufacturer;           //Производитель
+            private string type;                   //Тип
+            private DateTime date_of_manufacture;  //Дата производства
+            private DateTime date_of_registration; //Дата регистрации
 
             //Метод вывода списка всех элементов 
             public void PrintCars()
