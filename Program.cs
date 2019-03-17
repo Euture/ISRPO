@@ -25,43 +25,6 @@ namespace ISRPO
             "Спец техника"
         };
 
-     // Метод вывода меню
-        static public void Menu()
-        {
-            Console.Clear();
-            //Выводим меню, его пункты с соответствующими цифрами\символами
-            Console.WriteLine("--- МЕНЮ ---");
-            Console.WriteLine("1. Ввести в список еще один элемент.");
-            Console.WriteLine("2. Вывести весь список.");
-            Console.WriteLine("3. Вывести отфильтрованный список.");
-            Console.WriteLine("4. Ввести значения фильтра.");
-            Console.WriteLine("5. Выйти из программы.");
-            Console.Write("\n" + "Введите команду: ");
-
-            char ch = char.Parse(Console.ReadLine()); 
-
-            switch (ch)
-            {
-                case '1':
-                    WriteNew();
-                break;
-                case '2':
-                    PrintCars();
-                break;
-                case '3':
-                    PrintFilterCars();
-                break;
-                case '4':
-                    FilterValues();
-                break;
-                case '5':
-                    //exit
-                    break;
-
-
-            }
-        }
-
         //Структура "Автомобиль"
         public struct Car
         {
@@ -78,7 +41,7 @@ namespace ISRPO
             }
 
             //Метод ввода нового элемента 
-            private void WriteNew()
+            public void WriteNew()
             {
 
             }
@@ -102,14 +65,6 @@ namespace ISRPO
             DateTime since_date_of_registration;    //Дата регистрации начало
             DateTime till_date_of_registration;     //Дата регистрации окончание
 
-            //Метод ввода значения фильтра
-            private static void FilterValues()
-            {
-
-            }
-
-        } 
-    
+        }
     }
-   
 }
