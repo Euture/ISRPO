@@ -53,12 +53,7 @@ namespace ISRPO
 
             }
 
-            //Метод ввода нового элемента 
-            public void WriteNew()
-            {
-
-            }
-
+           
             //Метод вывода отфильтрованного списка элементов 
             public void PrintFilterCars()
             {
@@ -104,6 +99,41 @@ namespace ISRPO
 
             Cars.Add(new Car(mark, manufacturer, type, date_of_manufacture, date_of_registration));
         }
+        // Метод вывода меню
+        static public void Menu()
+        {
+            Console.Clear();
+            //Выводим меню, его пункты с соответствующими цифрами\символами
+            Console.WriteLine("--- МЕНЮ ---");
+            Console.WriteLine("1. Ввести в список еще один элемент.");
+            Console.WriteLine("2. Вывести весь список.");
+            Console.WriteLine("3. Вывести отфильтрованный список.");
+            Console.WriteLine("4. Ввести значения фильтра.");
+            Console.WriteLine("5. Выйти из программы.");
+            Console.Write("\n" + "Введите команду: ");
 
+            char ch = char.Parse(Console.ReadLine());
+
+            switch (ch)
+            {
+                case '1':
+                    NewCar();
+                    break;
+                case '2':
+                    PrintCars();
+                    break;
+                case '3':
+                    PrintFilterCars();
+                    break;
+                case '4':
+                    FilterValues();
+                    break;
+                case '5':
+                    //exit
+                    break;
+
+
+            }
+        }
     }
 }
