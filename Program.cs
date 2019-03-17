@@ -179,7 +179,7 @@ namespace ISRPO
                 if (El.date_of_manufacture < Filter.since_date_of_manufacture)
                     continue;
 
-                //Дата производства больше максимальной даты даты(даты С) - то пропускаем
+                //Дата производства больше максимальной даты(даты С) - то пропускаем
                 if (El.date_of_manufacture > Filter.till_date_of_manufacture)
                     continue;
 
@@ -187,7 +187,7 @@ namespace ISRPO
                 if (El.date_of_registration < Filter.since_date_of_registration)
                     continue;
 
-                //Дата регистрации больше максимальной даты даты(даты С) - то пропускаем
+                //Дата регистрации больше максимальной даты(даты С) - то пропускаем
                 if (El.date_of_registration > Filter.till_date_of_registration)
                     continue;
 
@@ -209,7 +209,8 @@ namespace ISRPO
             Console.WriteLine("2. Вывести весь список.");
             Console.WriteLine("3. Вывести отфильтрованный список.");
             Console.WriteLine("4. Ввести значения фильтра.");
-            Console.WriteLine("5. Выйти из программы.");
+            Console.WriteLine("5. Сброс значения фильтра.");
+            Console.WriteLine("6. Выйти из программы.");
             Console.Write("\n" + "Введите команду: ");
 
             char ch = char.Parse(Console.ReadLine());
@@ -233,6 +234,10 @@ namespace ISRPO
                     Menu();
                     break;
                 case '5':
+                    Filter.InputFilterValues();
+                    Menu();
+                    break;
+                case '6':
                     //exit
                     break;
             }
