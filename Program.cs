@@ -8,13 +8,16 @@ namespace ISRPO
 {
     class Program
     {
+
         static void Main(string[] args)
         {
-
+        
         }
 
+        //Список всех Автомобилей
+       static List <Car> Cars = new List<Car>();
 
-        string[] TYPES = new string[]
+        static string[] TYPES = new string[]
         {
             "Седан",
             "Хетчбек",
@@ -28,11 +31,21 @@ namespace ISRPO
         //Структура "Автомобиль"
         public struct Car
         {
-            private string _mark;                   //Марка
-            private string manufacturer;           //Производитель
-            private string type;                   //Тип
-            private DateTime date_of_manufacture;  //Дата производства
-            private DateTime date_of_registration; //Дата регистрации
+            public string mark;                   //Марка
+            public string manufacturer;           //Производитель
+            public string type;                   //Тип
+            public DateTime date_of_manufacture;  //Дата производства
+            public DateTime date_of_registration; //Дата регистрации
+            
+            //Создание нового объекта
+            public Car(string mark, string manufacturer, string type, DateTime date_of_manufacture, DateTime date_of_registration)
+            {
+                this.mark = mark;
+                this.manufacturer = manufacturer;
+                this.type = type;
+                this.date_of_manufacture = date_of_manufacture;
+                this.date_of_registration = date_of_registration;
+            }
 
             //Метод вывода списка всех элементов 
             public void PrintCars()
@@ -66,5 +79,31 @@ namespace ISRPO
             DateTime till_date_of_registration;     //Дата регистрации окончание
 
         }
+
+        //Ввод нового Автомобиля
+        public static void NewCar()
+        {
+            Console.WriteLine("Марка: ");
+            string mark = Console.ReadLine();
+
+            Console.WriteLine("Производитель: ");
+            string manufacturer = Console.ReadLine();
+
+            Console.WriteLine("Тип авто : ");
+            for (int i = 0; i < TYPES.Length; i++)
+            {
+                Console.WriteLine("  " + (i + 1) + "." + TYPES[i]);
+            }
+            string type = TYPES[int.Parse(Console.ReadLine()) - 1];
+
+            Console.WriteLine("Дата производства (dd.mm.yyyy) : ");
+            DateTime date_of_manufacture = DateTime.Parse(Console.ReadLine());
+
+            Console.WriteLine("Дата регистрации (dd.mm.yyyy) : ");
+            DateTime date_of_registration = DateTime.Parse(Console.ReadLine());
+
+            Cars.Add(new Car(mark, manufacturer, type, date_of_manufacture, date_of_registration));
+        }
+
     }
 }
