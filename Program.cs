@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ISRPO
@@ -11,14 +12,15 @@ namespace ISRPO
 
         static void Main(string[] args)
         {
-            filter.SetDefaultValues();
+            Filter.SetDefaultValues();
+            Menu();
         }
 
         //Список всех Автомобилей
         static List <Car> Cars = new List<Car>();
 
         //Значения фильтра
-        static Filter filter = new Filter();
+        static FilterStruct Filter = new FilterStruct();
 
         static string[] TYPES = new string[]
         {
@@ -53,15 +55,15 @@ namespace ISRPO
         }
 
         //Структура "Фильтр"
-        public struct Filter
+        public struct FilterStruct
         {
-            string mark;                            //Марка
-            string manufacturer;                    //Производитель
-            string type;                            //Тип
-            DateTime since_date_of_manufacture;     //Дата производства начало
-            DateTime till_date_of_manufacture;      //Дата производства окончание
-            DateTime since_date_of_registration;    //Дата регистрации начало
-            DateTime till_date_of_registration;     //Дата регистрации окончание
+            public string mark;                            //Марка
+            public string manufacturer;                    //Производитель
+            public string type;                            //Тип
+            public DateTime since_date_of_manufacture;     //Дата производства начало
+            public DateTime till_date_of_manufacture;      //Дата производства окончание
+            public DateTime since_date_of_registration;    //Дата регистрации начало
+            public DateTime till_date_of_registration;     //Дата регистрации окончание
 
             //Конструктор по умолчанию
             public void SetDefaultValues()
@@ -140,16 +142,61 @@ namespace ISRPO
         }
 
         //Метод вывода списка всех элементов 
-        static public void PrintCars()
+        static public void PrintCars(List<Car> Cars)
         {
 
         }
 
 
         //Метод вывода отфильтрованного списка элементов 
-        static public void PrintFilteredCars()
+        static public void PrintFilteredCars(List<Car> Cars, FilterStruct Filter)
         {
+            //Результирующий список
+            List<Car> result = new List<Car>();
 
+            MatchCollection matches;
+
+            Regex regex_mark = new Regex(Filter.mark);
+            Regex regex_manufacturer = new Regex(Filter.manufacturer);
+
+
+            foreach (Car El in Cars)
+            {
+                //Содержится ли подстрока
+                //"ud" содержится в "Audi" 
+                matches = regex_mark.Matches(El.mark);
+                if (matches.Count == 0)
+                    continue;
+
+                matches = regex_manufacturer.Matches(El.manufacturer);
+                if (matches.Count == 0)
+                    continue;
+
+                if (El.type != Filter.type)
+                    continue;
+
+                //Дата производства раньше минимальной даты(даты С) - то пропускаем
+                if (El.date_of_manufacture < Filter.since_date_of_manufacture)
+                    continue;
+
+                //Дата производства больше максимальной даты даты(даты С) - то пропускаем
+                if (El.date_of_manufacture > Filter.till_date_of_manufacture)
+                    continue;
+
+                //Дата регистрации раньше минимальной даты(даты С) - то пропускаем
+                if (El.date_of_registration < Filter.since_date_of_registration)
+                    continue;
+
+                //Дата регистрации больше максимальной даты даты(даты С) - то пропускаем
+                if (El.date_of_registration > Filter.till_date_of_registration)
+                    continue;
+
+                //Если мы тут то все поля удовлетворяют
+                result.Add(El);
+            }
+
+            //Выводим отфильтрованный список
+            PrintCars(result);
         }
 
         // Метод вывода меню
@@ -171,21 +218,23 @@ namespace ISRPO
             {
                 case '1':
                     NewCar();
+                    Menu();
                     break;
                 case '2':
-                    PrintCars();
+                    PrintCars(Cars);
+                    Menu();
                     break;
                 case '3':
-                    PrintFilteredCars();
+                    PrintFilteredCars(Cars,Filter);
+                    Menu();
                     break;
                 case '4':
-                    filter.InputFilterValues();
+                    Filter.InputFilterValues();
+                    Menu();
                     break;
                 case '5':
                     //exit
                     break;
-
-
             }
         }
     }
