@@ -158,9 +158,9 @@ namespace ISRPO
                 Console.Write("Тип авто : ");
                 Console.WriteLine(El.type);
                 Console.Write("Дата производства (dd.mm.yyyy) : ");
-                Console.WriteLine(El.date_of_manufacture);
+                Console.WriteLine(El.date_of_manufacture.ToString("d"));
                 Console.Write("Дата регистрации (dd.mm.yyyy) : ");
-                Console.WriteLine(El.date_of_registration);
+                Console.WriteLine(El.date_of_registration.ToString("d"));
                 Console.WriteLine();
             }
         }
