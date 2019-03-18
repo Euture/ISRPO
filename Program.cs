@@ -137,13 +137,13 @@ namespace ISRPO
                         break;
 
                     case '6':
-                        Console.WriteLine("Дата регистрации С (dd.mm.yyyy) : ");
+                        Console.WriteLine("Дата регистрации минимальная (dd.mm.yyyy) : ");
                         this.since_date_of_registration = DateTime.Parse(Console.ReadLine());
 
                         break;
 
                     case '7':
-                        Console.WriteLine("Дата регистрации ПО (dd.mm.yyyy) : ");
+                        Console.WriteLine("Дата регистрации максимальная (dd.mm.yyyy) : ");
                         this.till_date_of_registration = DateTime.Parse(Console.ReadLine());
 
                         break;
