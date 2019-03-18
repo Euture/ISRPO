@@ -156,7 +156,7 @@ namespace ISRPO
                 Console.WriteLine(El.date_of_manufacture);
                 Console.Write("Дата регистрации (dd.mm.yyyy) : ");
                 Console.WriteLine(El.date_of_registration);
-
+                Console.WriteLine();
             }
         }
 
@@ -232,22 +232,27 @@ namespace ISRPO
             {
                 case '1':
                     NewCar();
+                    Console.Read();
                     Menu();
                     break;
                 case '2':
                     PrintCars(Cars);
+                    Console.Read();
                     Menu();
                     break;
                 case '3':
                     PrintFilteredCars(Cars,Filter);
+                    Console.Read();
                     Menu();
                     break;
                 case '4':
                     Filter.InputFilterValues();
+                    Console.Read();
                     Menu();
                     break;
                 case '5':
                     Filter.InputFilterValues();
+                    Console.Read();
                     Menu();
                     break;
                 case '6':
