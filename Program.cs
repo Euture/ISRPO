@@ -82,33 +82,33 @@ namespace ISRPO
             //Ввод значений фильтра
             public void InputFilterValues()
             {
-                    Console.Clear();
-                    Console.WriteLine("Ввод значений фильтра");
+                Console.Clear();
+                Console.WriteLine("Ввод значений фильтра");
 
-                    Console.WriteLine("Марка: ");
-                    this.mark = Console.ReadLine();
+                Console.WriteLine("Марка: ");
+                this.mark = Console.ReadLine();
 
-                    Console.WriteLine("Производитель: ");
-                    this.manufacturer = Console.ReadLine();
+                Console.WriteLine("Производитель: ");
+                this.manufacturer = Console.ReadLine();
 
-                    Console.WriteLine("Тип авто : ");
-                    for (int i = 0; i < TYPES.Length; i++)
-                    {
-                        Console.WriteLine("  " + (i + 1) + "." + TYPES[i]);
-                    }
-                    this.type = TYPES[int.Parse(Console.ReadLine()) - 1];
+                Console.WriteLine("Тип авто : ");
+                for (int i = 0; i < TYPES.Length; i++)
+                {
+                    Console.WriteLine("  " + (i + 1) + "." + TYPES[i]);
+                }
+                this.type = TYPES[int.Parse(Console.ReadLine()) - 1];
 
-                    Console.WriteLine("Дата производства С (dd.mm.yyyy) : ");
-                    this.since_date_of_manufacture = DateTime.Parse(Console.ReadLine());
+                Console.WriteLine("Дата производства С (dd.mm.yyyy) : ");
+                this.since_date_of_manufacture = DateTime.Parse(Console.ReadLine());
 
-                    Console.WriteLine("Дата производства ПО (dd.mm.yyyy) : ");
-                    this.till_date_of_manufacture = DateTime.Parse(Console.ReadLine());
+                Console.WriteLine("Дата производства ПО (dd.mm.yyyy) : ");
+                this.till_date_of_manufacture = DateTime.Parse(Console.ReadLine());
 
-                    Console.WriteLine("Дата регистрации С (dd.mm.yyyy) : ");
-                    this.since_date_of_registration = DateTime.Parse(Console.ReadLine());
+                Console.WriteLine("Дата регистрации С (dd.mm.yyyy) : ");
+                this.since_date_of_registration = DateTime.Parse(Console.ReadLine());
 
-                    Console.WriteLine("Дата регистрации ПО (dd.mm.yyyy) : ");
-                    this.till_date_of_registration = DateTime.Parse(Console.ReadLine());     
+                Console.WriteLine("Дата регистрации ПО (dd.mm.yyyy) : ");
+                this.till_date_of_registration = DateTime.Parse(Console.ReadLine());     
             }
 
         }
