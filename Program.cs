@@ -198,7 +198,7 @@ namespace ISRPO
                 Console.WriteLine(El.date_of_registration.ToString("d"));
                 Console.WriteLine();
             }
-            Console.Read();
+            Console.ReadLine();
         }
 
 
