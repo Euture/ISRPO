@@ -96,7 +96,7 @@ namespace ISRPO
                 Console.WriteLine("4.Дата производства минимальная");
                 Console.WriteLine("5.Дата производтсва максимальная");
                 Console.WriteLine("6.Дата регистрация минимальная");
-                Console.WriteLine("7.Дата регистрация минимальная");
+                Console.WriteLine("7.Дата регистрация максимальная");
 
                 char ch = char.Parse(Console.ReadLine());
 
@@ -120,7 +120,15 @@ namespace ISRPO
                         {
                             Console.WriteLine("  " + (i + 1) + "." + TYPES[i]);
                         }
-                        this.type = TYPES[int.Parse(Console.ReadLine()) - 1];
+
+                        try
+                        {
+                            this.type = TYPES[int.Parse(Console.ReadLine()) - 1];
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Ошибка добавления! Данные не корректны");
+                        }
 
                         break;
 
@@ -169,15 +177,32 @@ namespace ISRPO
             {
                 Console.WriteLine("  " + (i + 1) + "." + TYPES[i]);
             }
-            string type = TYPES[int.Parse(Console.ReadLine()) - 1];
-
+            try
+            {
+                string type = TYPES[int.Parse(Console.ReadLine()) - 1];
+            }
+            catch
+            {
+                Console.WriteLine("Ошибка добавления! Данные не корректны");
+            }
+            
             Console.WriteLine("Дата производства (dd.mm.yyyy) : ");
             DateTime date_of_manufacture = DateTime.Parse(Console.ReadLine());
 
             Console.WriteLine("Дата регистрации (dd.mm.yyyy) : ");
             DateTime date_of_registration = DateTime.Parse(Console.ReadLine());
+            
+            try
+            {
+                Cars.Add(new Car(mark, manufacturer, type, date_of_manufacture, date_of_registration));
+                Console.WriteLine("Автомобиль успешно добавлен");
+            }
+            catch
+            {
+                Console.WriteLine("Ошибка добавления! Данные не корректны");
+            }
 
-            Cars.Add(new Car(mark, manufacturer, type, date_of_manufacture, date_of_registration));
+            Console.ReadLine();
         }
 
         //Метод вывода списка всех элементов 
