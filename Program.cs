@@ -88,32 +88,66 @@ namespace ISRPO
             public void InputFilterValues()
             {
                 Console.Clear();
-                Console.WriteLine("Ввод значений фильтра");
 
-                Console.WriteLine("Марка: ");
-                this.mark = Console.ReadLine();
+                Console.WriteLine("Поле фильтра для ввода значения: ");
+                Console.WriteLine("1.Марка");
+                Console.WriteLine("2.Производитель");
+                Console.WriteLine("3.Тип");
+                Console.WriteLine("4.Дата производства минимальная");
+                Console.WriteLine("5.Дата производтсва максимальная");
+                Console.WriteLine("6.Дата регистрация минимальная");
+                Console.WriteLine("7.Дата регистрация минимальная");
 
-                Console.WriteLine("Производитель: ");
-                this.manufacturer = Console.ReadLine();
+                char ch = char.Parse(Console.ReadLine());
 
-                Console.WriteLine("Тип авто : ");
-                for (int i = 0; i < TYPES.Length; i++)
+                switch (ch)
                 {
-                    Console.WriteLine("  " + (i + 1) + "." + TYPES[i]);
+                    case '1':
+                        Console.WriteLine("Марка: ");
+                        this.mark = Console.ReadLine();
+
+                        break;
+
+                    case '2':
+                        Console.WriteLine("Производитель: ");
+                        this.manufacturer = Console.ReadLine();
+
+                        break;
+
+                    case '3':
+                        Console.WriteLine("Тип авто : ");
+                        for (int i = 0; i < TYPES.Length; i++)
+                        {
+                            Console.WriteLine("  " + (i + 1) + "." + TYPES[i]);
+                        }
+                        this.type = TYPES[int.Parse(Console.ReadLine()) - 1];
+
+                        break;
+
+                    case '4':
+                        Console.WriteLine("Дата производства минимальная (dd.mm.yyyy) : ");
+                        this.since_date_of_manufacture = DateTime.Parse(Console.ReadLine());
+
+                        break;
+
+                    case '5':
+                        Console.WriteLine("Дата производства максимальная (dd.mm.yyyy) : ");
+                        this.till_date_of_manufacture = DateTime.Parse(Console.ReadLine());
+
+                        break;
+
+                    case '6':
+                        Console.WriteLine("Дата регистрации С (dd.mm.yyyy) : ");
+                        this.since_date_of_registration = DateTime.Parse(Console.ReadLine());
+
+                        break;
+
+                    case '7':
+                        Console.WriteLine("Дата регистрации ПО (dd.mm.yyyy) : ");
+                        this.till_date_of_registration = DateTime.Parse(Console.ReadLine());
+
+                        break;
                 }
-                this.type = TYPES[int.Parse(Console.ReadLine()) - 1];
-
-                Console.WriteLine("Дата производства С (dd.mm.yyyy) : ");
-                this.since_date_of_manufacture = DateTime.Parse(Console.ReadLine());
-
-                Console.WriteLine("Дата производства ПО (dd.mm.yyyy) : ");
-                this.till_date_of_manufacture = DateTime.Parse(Console.ReadLine());
-
-                Console.WriteLine("Дата регистрации С (dd.mm.yyyy) : ");
-                this.since_date_of_registration = DateTime.Parse(Console.ReadLine());
-
-                Console.WriteLine("Дата регистрации ПО (dd.mm.yyyy) : ");
-                this.till_date_of_registration = DateTime.Parse(Console.ReadLine());     
             }
 
         }
@@ -149,6 +183,7 @@ namespace ISRPO
         //Метод вывода списка всех элементов 
         static public void PrintCars(List<Car> Cars)
         {
+            Console.Clear();
             foreach (Car El in Cars)
             {
                 Console.Write("Марка: ");
@@ -163,6 +198,7 @@ namespace ISRPO
                 Console.WriteLine(El.date_of_registration.ToString("d"));
                 Console.WriteLine();
             }
+            Console.Read();
         }
 
 
@@ -237,27 +273,22 @@ namespace ISRPO
             {
                 case '1':
                     NewCar();
-                    Console.Read();
                     Menu();
                     break;
                 case '2':
                     PrintCars(Cars);
-                    Console.Read();
                     Menu();
                     break;
                 case '3':
                     PrintFilteredCars(Cars,Filter);
-                    Console.Read();
                     Menu();
                     break;
                 case '4':
                     Filter.InputFilterValues();
-                    Console.Read();
                     Menu();
                     break;
                 case '5':
-                    Filter.InputFilterValues();
-                    Console.Read();
+                    Filter.SetDefaultValues();
                     Menu();
                     break;
                 case '6':
