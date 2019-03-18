@@ -144,7 +144,20 @@ namespace ISRPO
         //Метод вывода списка всех элементов 
         static public void PrintCars(List<Car> Cars)
         {
+            foreach (Car El in Cars)
+            {
+                Console.Write("Марка: ");
+                Console.WriteLine(El.mark);
+                Console.Write("Производитель: ");
+                Console.WriteLine(El.manufacturer);
+                Console.Write("Тип авто : ");
+                Console.WriteLine(El.type);
+                Console.Write("Дата производства (dd.mm.yyyy) : ");
+                Console.WriteLine(El.date_of_manufacture);
+                Console.Write("Дата регистрации (dd.mm.yyyy) : ");
+                Console.WriteLine(El.date_of_registration);
 
+            }
         }
 
 
