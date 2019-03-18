@@ -78,10 +78,10 @@ namespace ISRPO
                 this.type = "";
                 //Дата начало - максимальная дата
                 //Дата конца - минимальная, чтобы изначально ничего не отбрасывало
-                this.since_date_of_manufacture = new DateTime(9999, 01, 01);
-                this.till_date_of_manufacture = new DateTime(01, 01, 01);
-                this.since_date_of_registration = new DateTime(9999, 01, 01);
-                this.till_date_of_registration = new DateTime(01, 01, 01);
+                this.since_date_of_manufacture = new DateTime(01, 01, 01); 
+                this.till_date_of_manufacture = new DateTime(9999, 01, 01);
+                this.since_date_of_registration = new DateTime(01, 01, 01);
+                this.till_date_of_registration = new DateTime(9999, 01, 01); 
             }
 
             //Ввод значений фильтра
@@ -226,14 +226,14 @@ namespace ISRPO
                 if (matches.Count == 0)
                     continue;
 
-                if (El.type != Filter.type)
+                if (Filter.type.Length > 0 & El.type != Filter.type)
                     continue;
 
                 //Дата производства раньше минимальной даты(даты С) - то пропускаем
                 if (El.date_of_manufacture < Filter.since_date_of_manufacture)
                     continue;
 
-                //Дата производства больше максимальной даты(даты С) - то пропускаем
+                //Дата производства позже максимальной даты(даты С) - то пропускаем
                 if (El.date_of_manufacture > Filter.till_date_of_manufacture)
                     continue;
 
@@ -241,7 +241,7 @@ namespace ISRPO
                 if (El.date_of_registration < Filter.since_date_of_registration)
                     continue;
 
-                //Дата регистрации больше максимальной даты(даты С) - то пропускаем
+                //Дата регистрации позже максимальной даты(даты С) - то пропускаем
                 if (El.date_of_registration > Filter.till_date_of_registration)
                     continue;
 
