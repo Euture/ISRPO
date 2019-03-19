@@ -21,10 +21,10 @@ namespace ISRPO
             Menu();
         }
 
-        //Список всех Автомобилей
+        // Список всех Автомобилей
         static List <Car> Cars = new List<Car>();
 
-        //Значения фильтра
+        // Значения фильтра
         static FilterStruct Filter = new FilterStruct();
 
         static string[] TYPES = new string[]
@@ -38,16 +38,16 @@ namespace ISRPO
             "Спецтехника"
         };
 
-        //Структура "Автомобиль"
+        // Структура "Автомобиль"
         public struct Car
         {
-            public string mark;                   //Марка
-            public string manufacturer;           //Производитель
-            public string type;                   //Тип
-            public DateTime date_of_manufacture;  //Дата производства
-            public DateTime date_of_registration; //Дата регистрации
+            public string mark;                   // Марка
+            public string manufacturer;           // Производитель
+            public string type;                   // Тип
+            public DateTime date_of_manufacture;  // Дата производства
+            public DateTime date_of_registration; // Дата регистрации
             
-            //Создание нового объекта
+            // Создание нового объекта
             public Car(string mark, string manufacturer, string type, DateTime date_of_manufacture, DateTime date_of_registration)
             {
                 this.mark = mark;
@@ -59,32 +59,32 @@ namespace ISRPO
 
         }
 
-        //Структура "Фильтр"
+        // Структура "Фильтр"
         public struct FilterStruct
         {
-            public string mark;                            //Марка
-            public string manufacturer;                    //Производитель
-            public string type;                            //Тип
-            public DateTime since_date_of_manufacture;     //Дата производства начало
-            public DateTime till_date_of_manufacture;      //Дата производства окончание
-            public DateTime since_date_of_registration;    //Дата регистрации начало
-            public DateTime till_date_of_registration;     //Дата регистрации окончание
+            public string mark;                            // Марка
+            public string manufacturer;                    // Производитель
+            public string type;                            // Тип
+            public DateTime since_date_of_manufacture;     // Дата производства начало
+            public DateTime till_date_of_manufacture;      // Дата производства окончание
+            public DateTime since_date_of_registration;    // Дата регистрации начало
+            public DateTime till_date_of_registration;     // Дата регистрации окончание
 
-            //Конструктор по умолчанию
+            // Конструктор по умолчанию
             public void SetDefaultValues()
             {
                 this.mark = "";
                 this.manufacturer = "";
                 this.type = "";
-                //Дата начало - максимальная дата
-                //Дата конца - минимальная, чтобы изначально ничего не отбрасывало
+                // Дата начало - максимальная дата
+                // Дата конца - минимальная, чтобы изначально ничего не отбрасывало
                 this.since_date_of_manufacture = new DateTime(01, 01, 01); 
                 this.till_date_of_manufacture = new DateTime(9999, 01, 01);
                 this.since_date_of_registration = new DateTime(01, 01, 01);
                 this.till_date_of_registration = new DateTime(9999, 01, 01); 
             }
 
-            //Ввод значений фильтра
+            // Ввод значений фильтра
             public void InputFilterValues()
             {
                 Console.Clear();
@@ -160,7 +160,7 @@ namespace ISRPO
 
         }
 
-        //Ввод нового Автомобиля
+        // Ввод нового Автомобиля
         public static void NewCar()
         {
             Console.Clear();
@@ -177,13 +177,15 @@ namespace ISRPO
             {
                 Console.WriteLine("  " + (i + 1) + "." + TYPES[i]);
             }
+            string type = "";
             try
             {
-                string type = TYPES[int.Parse(Console.ReadLine()) - 1];
+                type = TYPES[int.Parse(Console.ReadLine()) - 1];
             }
             catch
             {
                 Console.WriteLine("Ошибка добавления! Данные не корректны");
+                return;
             }
             
             Console.WriteLine("Дата производства (dd.mm.yyyy) : ");
@@ -205,7 +207,7 @@ namespace ISRPO
             Console.ReadLine();
         }
 
-        //Метод вывода списка всех элементов 
+        // Метод вывода списка всех элементов 
         static public void PrintCars(List<Car> Cars)
         {
             Console.Clear();
@@ -227,10 +229,10 @@ namespace ISRPO
         }
 
 
-        //Метод вывода отфильтрованного списка элементов 
+        //  Метод вывода отфильтрованного списка элементов 
         static public void PrintFilteredCars(List<Car> Cars, FilterStruct Filter)
         {
-            //Результирующий список
+            // Результирующий список
             List<Car> result = new List<Car>();
 
             MatchCollection matches;
@@ -241,8 +243,8 @@ namespace ISRPO
 
             foreach (Car El in Cars)
             {
-                //Содержится ли подстрока
-                //"ud" содержится в "Audi" 
+                // Содержится ли подстрока
+                // "ud" содержится в "Audi" 
                 matches = regex_mark.Matches(El.mark);
                 if (matches.Count == 0)
                     continue;
@@ -254,35 +256,35 @@ namespace ISRPO
                 if (Filter.type.Length > 0 & El.type != Filter.type)
                     continue;
 
-                //Дата производства раньше минимальной даты(даты С) - то пропускаем
+                // Дата производства раньше минимальной даты(даты С) - то пропускаем
                 if (El.date_of_manufacture < Filter.since_date_of_manufacture)
                     continue;
 
-                //Дата производства позже максимальной даты(даты С) - то пропускаем
+                // Дата производства позже максимальной даты(даты С) - то пропускаем
                 if (El.date_of_manufacture > Filter.till_date_of_manufacture)
                     continue;
 
-                //Дата регистрации раньше минимальной даты(даты С) - то пропускаем
+                // Дата регистрации раньше минимальной даты(даты С) - то пропускаем
                 if (El.date_of_registration < Filter.since_date_of_registration)
                     continue;
 
-                //Дата регистрации позже максимальной даты(даты С) - то пропускаем
+                // Дата регистрации позже максимальной даты(даты С) - то пропускаем
                 if (El.date_of_registration > Filter.till_date_of_registration)
                     continue;
 
-                //Если мы тут то все поля удовлетворяют
+                // Если мы тут то все поля удовлетворяют
                 result.Add(El);
             }
 
-            //Выводим отфильтрованный список
+            // Выводим отфильтрованный список
             PrintCars(result);
         }
 
-        // Метод вывода меню
+        //  Метод вывода меню
         static public void Menu()
         {
             Console.Clear();
-            //Выводим меню, его пункты с соответствующими цифрами\символами
+            // Выводим меню, его пункты с соответствующими цифрами\символами
             Console.WriteLine("--- МЕНЮ ---");
             Console.WriteLine("1. Ввести в список еще один элемент.");
             Console.WriteLine("2. Вывести весь список.");
@@ -317,7 +319,7 @@ namespace ISRPO
                     Menu();
                     break;
                 case '6':
-                    //exit
+                    // exit
                     break;
             }
         }
