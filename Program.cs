@@ -319,7 +319,7 @@ namespace ISRPO
                     Menu();
                     break;
                 case '6':
-                    // exit
+                    Environment.Exit(0);
                     break;
             }
         }
