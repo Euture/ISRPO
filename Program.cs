@@ -12,9 +12,6 @@ namespace ISRPO
 
         static void Main(string[] args)
         {
-            // Устанавливаем стандартные значения фильтра
-            Filter.SetDefaultValues();
-
             // Главное меню программы
             while(true)
             {
@@ -24,7 +21,6 @@ namespace ISRPO
                 Console.WriteLine("2. Вывести весь список.");
                 Console.WriteLine("3. Вывести отфильтрованный список.");
                 Console.WriteLine("4. Ввести значения фильтра.");
-                Console.WriteLine("5. Сброс значения фильтра.");
                 Console.WriteLine("0. Выйти из программы.");
                 Console.Write("\n" + "Введите команду: ");
 
@@ -45,9 +41,6 @@ namespace ISRPO
                         break;
                     case '4': // Ввод значения фильтра.
                         Filter.InputFilterValues();
-                        break;
-                    case '5': // Сброс значений фильтра.
-                        Filter.SetDefaultValues();
                         break;
                     case '0': // Выход 
                         Environment.Exit(0);
@@ -101,30 +94,10 @@ namespace ISRPO
             public string mark;                            // Марка
             public string manufacturer;                    // Производитель
             public string type;                            // Тип
-            public DateTime since_date_of_manufacture;     // Дата производства начало
-            public DateTime till_date_of_manufacture;      // Дата производства окончание
-            public DateTime since_date_of_registration;    // Дата регистрации начало
-            public DateTime till_date_of_registration;     // Дата регистрации окончание
-
-            public bool default_values;                           // Признак стандарных значений
-
-            // Сброс на стандартные значения
-            public void SetDefaultValues()
-            {
-                this.mark = "";
-                this.manufacturer = "";
-                this.type = "";
-
-                // Дата начало - максимальная дата
-                // Дата конца - минимальная, чтобы изначально ничего не отбрасывало
-                this.since_date_of_manufacture = new DateTime(01, 01, 01); 
-                this.till_date_of_manufacture = new DateTime(9999, 01, 01);
-                this.since_date_of_registration = new DateTime(01, 01, 01);
-                this.till_date_of_registration = new DateTime(9999, 01, 01);
-
-                // Устанавливаем признак, что у фильтра стандартные значения
-                this.default_values = true;
-            }
+            public string since_date_of_manufacture;     // Дата производства начало
+            public string till_date_of_manufacture;      // Дата производства окончание
+            public string since_date_of_registration;    // Дата регистрации начало
+            public string till_date_of_registration;     // Дата регистрации окончание
 
             // Ввод значений фильтра
             public void InputFilterValues()
@@ -141,6 +114,8 @@ namespace ISRPO
 
                 // Считываем выбранный пункт
                 char ch = char.Parse(Console.ReadLine());
+
+                string buffer = null;
 
                 // Действие в зависимости от введенного значения
                 switch (ch)
@@ -176,28 +151,45 @@ namespace ISRPO
 
                     case '4':// Вводим дату производства минимальную
                         Console.WriteLine("Дата производства минимальная (dd.mm.yyyy) : ");
-                        this.since_date_of_manufacture = DateTime.Parse(Console.ReadLine());                  
+                        this.since_date_of_manufacture = Console.ReadLine();                  
                         break;
 
                     case '5':// Вводим дату производства максимальную
                         Console.WriteLine("Дата производства максимальная (dd.mm.yyyy) : ");
-                        this.till_date_of_manufacture = DateTime.Parse(Console.ReadLine());
+                        this.till_date_of_manufacture =Console.ReadLine();
                         break;
 
                     case '6':// Вводим дату регистрации минимальную
                         Console.WriteLine("Дата регистрации минимальная (dd.mm.yyyy) : ");
-                        this.since_date_of_registration = DateTime.Parse(Console.ReadLine());
+                        this.since_date_of_registration = Console.ReadLine();
                         break;
 
                     case '7':// Вводим дату регистрации максимальную
                         Console.WriteLine("Дата регистрации максимальная (dd.mm.yyyy) : ");
-                        this.till_date_of_registration = DateTime.Parse(Console.ReadLine());
+                        this.till_date_of_registration = Console.ReadLine();
                         break;
                 }
-                // Устанавливаем признак, что у фильтра нестандартные значения
-                this.default_values = false;
             }
 
+            // Проверка всех полей на отличия от null
+            public bool ChangedValues()
+            {
+                if (this.mark != "")
+                    return true;
+                if (this.manufacturer != "")
+                    return true;
+                if (this.type != null)
+                    return true;
+                if (this.since_date_of_manufacture != "")
+                    return true;
+                if (this.till_date_of_manufacture != "")
+                    return true;
+                if (this.since_date_of_registration != "")
+                    return true;
+                if (this.till_date_of_registration != "")
+                    return true;
+                return false;
+            }
         }
 
         // Ввод нового Автомобиля
@@ -274,14 +266,13 @@ namespace ISRPO
         //  Метод вывода отфильтрованного списка элементов 
         static public void PrintFilteredCars(List<Car> Cars, FilterStruct Filter)
         {
-            // Если значения стандартные
-            if (Filter.default_values)
+            // Если фильтр сброшен
+            if (Filter.ChangedValues())
             {
-                // Выводим весь список и выходим
+                // Выводим входной список
                 PrintCars(Cars);
                 return;
             }
-
             // Результирующий список
             List<Car> result = new List<Car>();
 
@@ -294,36 +285,57 @@ namespace ISRPO
 
             foreach (Car El in Cars)
             {
-                // Содержится ли подстрока
-                // "ud" содержится в "Audi" 
-                matches = regex_mark.Matches(El.mark);
-                if (matches.Count == 0)
-                    continue;
-
-                // Ищем совпадения в строке
-                matches = regex_manufacturer.Matches(El.manufacturer);
-                if (matches.Count == 0)
-                    continue;
+                if (Filter.mark != "")
+                {
+                    // Содержится ли подстрока
+                    // "ud" содержится в "Audi" 
+                    matches = regex_mark.Matches(El.mark);
+                    if (matches.Count == 0)
+                        continue;
+                }
                 
-                // Ищем совпаднеия в строке
-                if (Filter.type.Length > 0 & El.type != Filter.type)
-                    continue;
+                if (Filter.manufacturer != "")
+                {
+                    // Ищем совпадения в строке
+                    matches = regex_manufacturer.Matches(El.manufacturer);
+                    if (matches.Count == 0)
+                        continue;
+                }
 
-                // Дата производства раньше минимальной даты(даты С) - то пропускаем
-                if (El.date_of_manufacture < Filter.since_date_of_manufacture)
-                    continue;
+                if (Filter.type != "")
+                {
+                    // Ищем совпаднеия в строке
+                    if (Filter.type.Length > 0 & El.type != Filter.type)
+                        continue;
+                }
 
-                // Дата производства позже максимальной даты(даты С) - то пропускаем
-                if (El.date_of_manufacture > Filter.till_date_of_manufacture)
-                    continue;
+                if (Filter.since_date_of_manufacture != "")
+                {
+                    // Дата производства раньше минимальной даты(даты С) - то пропускаем
+                    if (El.date_of_manufacture < DateTime.Parse(Filter.since_date_of_manufacture))
+                        continue;
+                }
 
-                // Дата регистрации раньше минимальной даты(даты С) - то пропускаем
-                if (El.date_of_registration < Filter.since_date_of_registration)
-                    continue;
+                if (Filter.till_date_of_manufacture != "")
+                {
+                    // Дата производства позже максимальной даты(даты С) - то пропускаем
+                    if (El.date_of_manufacture > DateTime.Parse(Filter.till_date_of_manufacture))
+                        continue;
+                }
 
-                // Дата регистрации позже максимальной даты(даты С) - то пропускаем
-                if (El.date_of_registration > Filter.till_date_of_registration)
-                    continue;
+                if (Filter.since_date_of_registration != "")
+                {
+                    // Дата регистрации раньше минимальной даты(даты С) - то пропускаем
+                    if (El.date_of_registration < DateTime.Parse(Filter.since_date_of_registration))
+                        continue;
+                }
+
+                if (Filter.till_date_of_registration != "")
+                {
+                    // Дата регистрации позже максимальной даты(даты С) - то пропускаем
+                    if (El.date_of_registration > DateTime.Parse(Filter.till_date_of_registration))
+                        continue;
+                }
 
                 // Если мы тут то все поля удовлетворяют
                 result.Add(El);
