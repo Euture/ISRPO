@@ -34,22 +34,22 @@ namespace ISRPO
                 // Выбираем действие в зависимости от выбранного пункта меню
                 switch (ch)
                 {
-                    case '1':
+                    case '1': // Ввод нового элемента.
                         NewCar();
                         break;
-                    case '2':
+                    case '2': // Вывод списка элементов.
                         PrintCars(Cars);
                         break;
-                    case '3':
+                    case '3': // Вывод отфильтрованного списка.
                         PrintFilteredCars(Cars, Filter);
                         break;
-                    case '4':
+                    case '4': // Ввод значения фильтра.
                         Filter.InputFilterValues();
                         break;
-                    case '5':
+                    case '5': // Сброс значений фильтра.
                         Filter.SetDefaultValues();
                         break;
-                    case '0':
+                    case '0': // Выход 
                         Environment.Exit(0);
                         break;
                 }
@@ -83,7 +83,7 @@ namespace ISRPO
             public DateTime date_of_manufacture;  // Дата производства
             public DateTime date_of_registration; // Дата регистрации
             
-            // Создание нового объекта
+            // Создание нового объекта. Входными параметрами являются марка, производитель, тип, дата производства и дата регистрации.
             public Car(string mark, string manufacturer, string type, DateTime date_of_manufacture, DateTime date_of_registration)
             {
                 this.mark = mark;
