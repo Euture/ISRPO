@@ -18,10 +18,7 @@ namespace ISRPO
             // Главное меню программы
             while(true)
             {
-                // Очищаем
-                Console.Clear();
-
-                // Выводим меню, его пункты с соответствующими цифрами\символами
+                // Выводим меню
                 Console.WriteLine("--- МЕНЮ ---");
                 Console.WriteLine("1. Ввести в список еще один элемент.");
                 Console.WriteLine("2. Вывести весь список.");
@@ -31,9 +28,10 @@ namespace ISRPO
                 Console.WriteLine("0. Выйти из программы.");
                 Console.Write("\n" + "Введите команду: ");
 
+                // Считываем выбранный пункт
                 char ch = char.Parse(Console.ReadLine());
 
-                // Выбираем действие в зависимости от введенного 
+                // Выбираем действие в зависимости от выбранного пункта меню
                 switch (ch)
                 {
                     case '1':
@@ -64,6 +62,7 @@ namespace ISRPO
         // Значения фильтра
         static FilterStruct Filter = new FilterStruct();
 
+        // Возможные типы автомобилей
         static string[] TYPES = new string[]
         {
             "Седан",
@@ -110,9 +109,9 @@ namespace ISRPO
             // Конструктор по умолчанию
             public void SetDefaultValues()
             {
-                this.mark = "";
-                this.manufacturer = "";
-                this.type = "";
+                this.mark = null;
+                this.manufacturer = null;
+                this.type = null;
                 // Дата начало - максимальная дата
                 // Дата конца - минимальная, чтобы изначально ничего не отбрасывало
                 this.since_date_of_manufacture = new DateTime(01, 01, 01); 
@@ -124,7 +123,7 @@ namespace ISRPO
             // Ввод значений фильтра
             public void InputFilterValues()
             {
-                Console.Clear();
+                Console.WriteLine();
                 // Меню вывода меню фильтра полей
                 Console.WriteLine("Поле фильтра для ввода значения: ");
                 Console.WriteLine("1.Марка");
@@ -135,24 +134,23 @@ namespace ISRPO
                 Console.WriteLine("6.Дата регистрации минимальная");
                 Console.WriteLine("7.Дата регистрации максимальная");
 
+                // Считываем выбранный пункт
                 char ch = char.Parse(Console.ReadLine());
 
                 // Действие в зависимости от введенного значения
                 switch (ch)
                 {
-                    case '1':
+                    case '1': // Вводим значение для марки
                         Console.WriteLine("Марка: ");
                         this.mark = Console.ReadLine();
-
                         break;
 
-                    case '2':
+                    case '2':// Вводим значения для производетеля
                         Console.WriteLine("Производитель: ");
                         this.manufacturer = Console.ReadLine();
-
                         break;
 
-                    case '3':
+                    case '3':// Вводим значения для типа
                         // Выводим варианты
                         Console.WriteLine("Тип авто : ");
                         for (int i = 0; i < TYPES.Length; i++)
@@ -169,31 +167,26 @@ namespace ISRPO
                         {
                             Console.WriteLine("Ошибка добавления! Данные не корректны");
                         }
-
                         break;
 
-                    case '4':
+                    case '4':// Вводим дату производства минимальную
                         Console.WriteLine("Дата производства минимальная (dd.mm.yyyy) : ");
-                        this.since_date_of_manufacture = DateTime.Parse(Console.ReadLine());
-
+                        this.since_date_of_manufacture = DateTime.Parse(Console.ReadLine());                  
                         break;
 
-                    case '5':
+                    case '5':// Вводим дату производства максимальную
                         Console.WriteLine("Дата производства максимальная (dd.mm.yyyy) : ");
                         this.till_date_of_manufacture = DateTime.Parse(Console.ReadLine());
-
                         break;
 
-                    case '6':
+                    case '6':// Вводим дату регистрации минимальную
                         Console.WriteLine("Дата регистрации минимальная (dd.mm.yyyy) : ");
                         this.since_date_of_registration = DateTime.Parse(Console.ReadLine());
-
                         break;
 
-                    case '7':
+                    case '7':// Вводим дату регистрации максимальную
                         Console.WriteLine("Дата регистрации максимальная (dd.mm.yyyy) : ");
                         this.till_date_of_registration = DateTime.Parse(Console.ReadLine());
-
                         break;
                 }
             }
@@ -252,7 +245,7 @@ namespace ISRPO
             Console.ReadLine();
         }
 
-        // Метод вывода списка всех элементов 
+        // Метод вывода списка всех элементов на входе Список<Car> для вывода
         static public void PrintCars(List<Car> Cars)
         {
             Console.Clear();
