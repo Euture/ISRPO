@@ -12,7 +12,7 @@ namespace ISRPO
 
         static void Main(string[] args)
         {
-            // Устанавливаем стандартные значения фильтра, чтобы ничего не остеивалось
+            // Устанавливаем стандартные значения фильтра
             Filter.SetDefaultValues();
 
             // Главное меню программы
@@ -114,6 +114,7 @@ namespace ISRPO
                 this.mark = "";
                 this.manufacturer = "";
                 this.type = "";
+
                 // Дата начало - максимальная дата
                 // Дата конца - минимальная, чтобы изначально ничего не отбрасывало
                 this.since_date_of_manufacture = new DateTime(01, 01, 01); 
@@ -128,7 +129,6 @@ namespace ISRPO
             // Ввод значений фильтра
             public void InputFilterValues()
             {
-                Console.WriteLine();
                 // Меню вывода меню фильтра полей
                 Console.WriteLine("Поле фильтра для ввода значения: ");
                 Console.WriteLine("1.Марка");
@@ -203,8 +203,6 @@ namespace ISRPO
         // Ввод нового Автомобиля
         public static void NewCar()
         {
-            Console.Clear();
-
             Console.WriteLine("Ввод нового автомобиля");
 
             Console.WriteLine("Марка: ");
@@ -255,8 +253,6 @@ namespace ISRPO
         // Метод вывода списка всех элементов на входе Список<Car> для вывода
         static public void PrintCars(List<Car> Cars)
         {
-            Console.Clear();
-            
             foreach (Car El in Cars)
             {
                 Console.Write("Марка: ");
@@ -281,9 +277,11 @@ namespace ISRPO
             // Если значения стандартные
             if (Filter.default_values)
             {
-                // Выводим весь список
+                // Выводим весь список и выходим
                 PrintCars(Cars);
+                return;
             }
+
             // Результирующий список
             List<Car> result = new List<Car>();
 
