@@ -12,13 +12,50 @@ namespace ISRPO
 
         static void Main(string[] args)
         {
+            // Устанавливаем стандартные значения фильтра, чтобы ничего не остеивалось
             Filter.SetDefaultValues();
-            Cars.Add(new Car("Hyundai", "Hyundai Motors", "Седан", new DateTime(2012,12,12), new DateTime(2013, 10, 26)));
-            Cars.Add(new Car("Toyota", "Toyota", "Универсал", new DateTime(2014, 10, 02), new DateTime(2015, 02, 26)));
-            Cars.Add(new Car("KIA", "KIA Motors", "Универсал", new DateTime(2009, 06, 10), new DateTime(2010, 08, 02)));
-            Cars.Add(new Car("Nissan", "Nissan Motor Co.", "Пикап", new DateTime(2017, 12, 20), new DateTime(2018, 07, 19)));
-            Cars.Add(new Car("Беларус МТЗ", "Минский Тракторный Завод", "Спецтехника", new DateTime(2015, 04, 13), new DateTime(2017, 03,30)));
-            Menu();
+
+            // Главное меню программы
+            while(true)
+            {
+                // Очищаем
+                Console.Clear();
+
+                // Выводим меню, его пункты с соответствующими цифрами\символами
+                Console.WriteLine("--- МЕНЮ ---");
+                Console.WriteLine("1. Ввести в список еще один элемент.");
+                Console.WriteLine("2. Вывести весь список.");
+                Console.WriteLine("3. Вывести отфильтрованный список.");
+                Console.WriteLine("4. Ввести значения фильтра.");
+                Console.WriteLine("5. Сброс значения фильтра.");
+                Console.WriteLine("0. Выйти из программы.");
+                Console.Write("\n" + "Введите команду: ");
+
+                char ch = char.Parse(Console.ReadLine());
+
+                // Выбираем действие в зависимости от введенного 
+                switch (ch)
+                {
+                    case '1':
+                        NewCar();
+                        break;
+                    case '2':
+                        PrintCars(Cars);
+                        break;
+                    case '3':
+                        PrintFilteredCars(Cars, Filter);
+                        break;
+                    case '4':
+                        Filter.InputFilterValues();
+                        break;
+                    case '5':
+                        Filter.SetDefaultValues();
+                        break;
+                    case '0':
+                        Environment.Exit(0);
+                        break;
+                }
+            }
         }
 
         // Список всех Автомобилей
@@ -88,7 +125,7 @@ namespace ISRPO
             public void InputFilterValues()
             {
                 Console.Clear();
-
+                // Меню вывода меню фильтра полей
                 Console.WriteLine("Поле фильтра для ввода значения: ");
                 Console.WriteLine("1.Марка");
                 Console.WriteLine("2.Производитель");
@@ -100,6 +137,7 @@ namespace ISRPO
 
                 char ch = char.Parse(Console.ReadLine());
 
+                // Действие в зависимости от введенного значения
                 switch (ch)
                 {
                     case '1':
@@ -115,12 +153,14 @@ namespace ISRPO
                         break;
 
                     case '3':
+                        // Выводим варианты
                         Console.WriteLine("Тип авто : ");
                         for (int i = 0; i < TYPES.Length; i++)
                         {
                             Console.WriteLine("  " + (i + 1) + "." + TYPES[i]);
                         }
 
+                        // Пробуем найти этот тип
                         try
                         {
                             this.type = TYPES[int.Parse(Console.ReadLine()) - 1];
@@ -164,6 +204,7 @@ namespace ISRPO
         public static void NewCar()
         {
             Console.Clear();
+
             Console.WriteLine("Ввод нового автомобиля");
 
             Console.WriteLine("Марка: ");
@@ -172,11 +213,14 @@ namespace ISRPO
             Console.WriteLine("Производитель: ");
             string manufacturer = Console.ReadLine();
 
+            // Выводим варианты типов
             Console.WriteLine("Тип авто : ");
             for (int i = 0; i < TYPES.Length; i++)
             {
                 Console.WriteLine("  " + (i + 1) + "." + TYPES[i]);
             }
+
+            // Пробуем найти этот тип в списке
             string type = "";
             try
             {
@@ -194,6 +238,7 @@ namespace ISRPO
             Console.WriteLine("Дата регистрации (dd.mm.yyyy) : ");
             DateTime date_of_registration = DateTime.Parse(Console.ReadLine());
             
+            // Пробуем добавить новый объект
             try
             {
                 Cars.Add(new Car(mark, manufacturer, type, date_of_manufacture, date_of_registration));
@@ -211,6 +256,7 @@ namespace ISRPO
         static public void PrintCars(List<Car> Cars)
         {
             Console.Clear();
+            
             foreach (Car El in Cars)
             {
                 Console.Write("Марка: ");
@@ -236,7 +282,8 @@ namespace ISRPO
             List<Car> result = new List<Car>();
 
             MatchCollection matches;
-
+            
+            // Регулярные выражения на основе введенных полей фильтра
             Regex regex_mark = new Regex(Filter.mark);
             Regex regex_manufacturer = new Regex(Filter.manufacturer);
 
@@ -249,10 +296,12 @@ namespace ISRPO
                 if (matches.Count == 0)
                     continue;
 
+                // Ищем совпадения в строке
                 matches = regex_manufacturer.Matches(El.manufacturer);
                 if (matches.Count == 0)
                     continue;
-
+                
+                // Ищем совпаднеия в строке
                 if (Filter.type.Length > 0 & El.type != Filter.type)
                     continue;
 
@@ -278,50 +327,6 @@ namespace ISRPO
 
             // Выводим отфильтрованный список
             PrintCars(result);
-        }
-
-        //  Метод вывода меню
-        static public void Menu()
-        {
-            Console.Clear();
-            // Выводим меню, его пункты с соответствующими цифрами\символами
-            Console.WriteLine("--- МЕНЮ ---");
-            Console.WriteLine("1. Ввести в список еще один элемент.");
-            Console.WriteLine("2. Вывести весь список.");
-            Console.WriteLine("3. Вывести отфильтрованный список.");
-            Console.WriteLine("4. Ввести значения фильтра.");
-            Console.WriteLine("5. Сброс значения фильтра.");
-            Console.WriteLine("0. Выйти из программы.");
-            Console.Write("\n" + "Введите команду: ");
-
-            char ch = char.Parse(Console.ReadLine());
-
-            switch (ch)
-            {
-                case '1':
-                    NewCar();
-                    Menu();
-                    break;
-                case '2':
-                    PrintCars(Cars);
-                    Menu();
-                    break;
-                case '3':
-                    PrintFilteredCars(Cars,Filter);
-                    Menu();
-                    break;
-                case '4':
-                    Filter.InputFilterValues();
-                    Menu();
-                    break;
-                case '5':
-                    Filter.SetDefaultValues();
-                    Menu();
-                    break;
-                case '0':
-                    Environment.Exit(0);
-                    break;
-            }
         }
     }
 }
