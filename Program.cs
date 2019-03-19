@@ -94,9 +94,9 @@ namespace ISRPO
                 Console.WriteLine("2.Производитель");
                 Console.WriteLine("3.Тип");
                 Console.WriteLine("4.Дата производства минимальная");
-                Console.WriteLine("5.Дата производтсва максимальная");
-                Console.WriteLine("6.Дата регистрация минимальная");
-                Console.WriteLine("7.Дата регистрация максимальная");
+                Console.WriteLine("5.Дата производства максимальная");
+                Console.WriteLine("6.Дата регистрации минимальная");
+                Console.WriteLine("7.Дата регистрации максимальная");
 
                 char ch = char.Parse(Console.ReadLine());
 
@@ -291,7 +291,7 @@ namespace ISRPO
             Console.WriteLine("3. Вывести отфильтрованный список.");
             Console.WriteLine("4. Ввести значения фильтра.");
             Console.WriteLine("5. Сброс значения фильтра.");
-            Console.WriteLine("6. Выйти из программы.");
+            Console.WriteLine("0. Выйти из программы.");
             Console.Write("\n" + "Введите команду: ");
 
             char ch = char.Parse(Console.ReadLine());
@@ -318,7 +318,7 @@ namespace ISRPO
                     Filter.SetDefaultValues();
                     Menu();
                     break;
-                case '6':
+                case '0':
                     Environment.Exit(0);
                     break;
             }
