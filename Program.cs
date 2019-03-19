@@ -106,18 +106,23 @@ namespace ISRPO
             public DateTime since_date_of_registration;    // Дата регистрации начало
             public DateTime till_date_of_registration;     // Дата регистрации окончание
 
-            // Конструктор по умолчанию
+            public bool default_values;                           // Признак стандарных значений
+
+            // Сброс на стандартные значения
             public void SetDefaultValues()
             {
-                this.mark = null;
-                this.manufacturer = null;
-                this.type = null;
+                this.mark = "";
+                this.manufacturer = "";
+                this.type = "";
                 // Дата начало - максимальная дата
                 // Дата конца - минимальная, чтобы изначально ничего не отбрасывало
                 this.since_date_of_manufacture = new DateTime(01, 01, 01); 
                 this.till_date_of_manufacture = new DateTime(9999, 01, 01);
                 this.since_date_of_registration = new DateTime(01, 01, 01);
-                this.till_date_of_registration = new DateTime(9999, 01, 01); 
+                this.till_date_of_registration = new DateTime(9999, 01, 01);
+
+                // Устанавливаем признак, что у фильтра стандартные значения
+                this.default_values = true;
             }
 
             // Ввод значений фильтра
@@ -189,6 +194,8 @@ namespace ISRPO
                         this.till_date_of_registration = DateTime.Parse(Console.ReadLine());
                         break;
                 }
+                // Устанавливаем признак, что у фильтра нестандартные значения
+                this.default_values = false;
             }
 
         }
@@ -271,6 +278,12 @@ namespace ISRPO
         //  Метод вывода отфильтрованного списка элементов 
         static public void PrintFilteredCars(List<Car> Cars, FilterStruct Filter)
         {
+            // Если значения стандартные
+            if (Filter.default_values)
+            {
+                // Выводим весь список
+                PrintCars(Cars);
+            }
             // Результирующий список
             List<Car> result = new List<Car>();
 
