@@ -12,8 +12,14 @@ namespace ISRPO
 
         static void Main(string[] args)
         {
+            Cars.Add(new Car("Hyundai", "Hyundai Motors", "Седан", new DateTime(2012, 12, 12), new DateTime(2013, 10, 26)));
+            Cars.Add(new Car("Toyota", "Toyota", "Универсал", new DateTime(2014, 10, 02), new DateTime(2015, 02, 26)));
+            Cars.Add(new Car("KIA", "KIA Motors", "Универсал", new DateTime(2009, 06, 10), new DateTime(2010, 08, 02)));
+            Cars.Add(new Car("Nissan", "Nissan Motor Co.", "Пикап", new DateTime(2017, 12, 20), new DateTime(2018, 07, 19)));
+            Cars.Add(new Car("Беларус МТЗ", "Минский Тракторный Завод", "Спецтехника", new DateTime(2015, 04, 13), new DateTime(2017, 03, 30)));
+
             // Главное меню программы
-            while(true)
+            while (true)
             {
                 // Выводим меню
                 Console.WriteLine("--- МЕНЮ ---");
@@ -49,6 +55,8 @@ namespace ISRPO
             }
         }
 
+        // Пустые значения в фильтре
+        static List<String> EMPTY_VALUES = new List<String> { null, "" }; 
         // Список всех Автомобилей
         static List <Car> Cars = new List<Car>();
 
@@ -145,6 +153,7 @@ namespace ISRPO
                         }
                         catch
                         {
+                            this.type = "";
                             Console.WriteLine("Ошибка добавления! Данные не корректны");
                         }
                         break;
@@ -171,22 +180,22 @@ namespace ISRPO
                 }
             }
 
-            // Проверка всех полей на отличия от null
+            // Проверка всех полей на отличия от пустого(стандартного) значения
             public bool ChangedValues()
             {
-                if (this.mark != "")
+                if (!EMPTY_VALUES.Contains(this.mark))
                     return true;
-                if (this.manufacturer != "")
+                if (!EMPTY_VALUES.Contains(this.manufacturer))
                     return true;
-                if (this.type != null)
+                if (!EMPTY_VALUES.Contains(this.type))
                     return true;
-                if (this.since_date_of_manufacture != "")
+                if (!EMPTY_VALUES.Contains(this.since_date_of_manufacture))
                     return true;
-                if (this.till_date_of_manufacture != "")
+                if (!EMPTY_VALUES.Contains(this.till_date_of_manufacture))
                     return true;
-                if (this.since_date_of_registration != "")
+                if (!EMPTY_VALUES.Contains(this.since_date_of_registration))
                     return true;
-                if (this.till_date_of_registration != "")
+                if (!EMPTY_VALUES.Contains(this.till_date_of_registration))
                     return true;
                 return false;
             }
@@ -267,25 +276,54 @@ namespace ISRPO
         static public void PrintFilteredCars(List<Car> Cars, FilterStruct Filter)
         {
             // Если фильтр сброшен
-            if (Filter.ChangedValues())
+            if (!Filter.ChangedValues())
             {
                 // Выводим входной список
                 PrintCars(Cars);
                 return;
             }
+
             // Результирующий список
             List<Car> result = new List<Car>();
 
+            // Регулярные выражения
+            Regex regex_mark = null, regex_manufacturer = null;
+            // Результат поиска по регулярному выражению
             MatchCollection matches;
+
+            // Признаки на пустоe(стандартное) значение
+            Boolean default_mark = false, default_manufacturer = false, default_type = false, 
+                    default_since_date_of_manufacture = false, default_till_date_of_manufacture = false, 
+                    default_since_date_of_registration = false, default_till_date_of_registration = false;
+
+            // Устанавливаем признаки 
+            if (EMPTY_VALUES.Contains(Filter.mark))
+                default_mark = true;
+            else
+            {
+                regex_mark= new Regex(Filter.mark); // Регулярное выражения на основе введенного поля фильтра
+            }
+            if (EMPTY_VALUES.Contains(Filter.manufacturer))
+                default_manufacturer = true;
+            else
+            {
+                regex_manufacturer = new Regex(Filter.manufacturer); // Регулярное выражения на основе введенного поля фильтра
+            }
+            if (EMPTY_VALUES.Contains(Filter.type))
+                default_type = true;
+            if (EMPTY_VALUES.Contains(Filter.since_date_of_manufacture))
+                default_since_date_of_manufacture = true;
+            if (EMPTY_VALUES.Contains(Filter.till_date_of_manufacture))
+                default_till_date_of_manufacture = true;
+            if (EMPTY_VALUES.Contains(Filter.since_date_of_registration))
+                default_since_date_of_registration = true;
+            if (EMPTY_VALUES.Contains(Filter.till_date_of_registration))
+                default_till_date_of_registration = true;
             
-            // Регулярные выражения на основе введенных полей фильтра
-            Regex regex_mark = new Regex(Filter.mark);
-            Regex regex_manufacturer = new Regex(Filter.manufacturer);
-
-
+            // Сортируем входной список
             foreach (Car El in Cars)
             {
-                if (Filter.mark != "")
+                if (!default_mark)
                 {
                     // Содержится ли подстрока
                     // "ud" содержится в "Audi" 
@@ -294,7 +332,7 @@ namespace ISRPO
                         continue;
                 }
                 
-                if (Filter.manufacturer != "")
+                if (!default_manufacturer)
                 {
                     // Ищем совпадения в строке
                     matches = regex_manufacturer.Matches(El.manufacturer);
@@ -302,35 +340,35 @@ namespace ISRPO
                         continue;
                 }
 
-                if (Filter.type != "")
+                if (!default_type)
                 {
                     // Ищем совпаднеия в строке
                     if (Filter.type.Length > 0 & El.type != Filter.type)
                         continue;
                 }
 
-                if (Filter.since_date_of_manufacture != "")
+                if (!default_since_date_of_manufacture)
                 {
                     // Дата производства раньше минимальной даты(даты С) - то пропускаем
                     if (El.date_of_manufacture < DateTime.Parse(Filter.since_date_of_manufacture))
                         continue;
                 }
-
-                if (Filter.till_date_of_manufacture != "")
+            
+                if (!default_till_date_of_manufacture)
                 {
                     // Дата производства позже максимальной даты(даты С) - то пропускаем
                     if (El.date_of_manufacture > DateTime.Parse(Filter.till_date_of_manufacture))
                         continue;
                 }
 
-                if (Filter.since_date_of_registration != "")
+                if (!default_since_date_of_registration)
                 {
                     // Дата регистрации раньше минимальной даты(даты С) - то пропускаем
                     if (El.date_of_registration < DateTime.Parse(Filter.since_date_of_registration))
                         continue;
                 }
 
-                if (Filter.till_date_of_registration != "")
+                if (!default_till_date_of_registration)
                 {
                     // Дата регистрации позже максимальной даты(даты С) - то пропускаем
                     if (El.date_of_registration > DateTime.Parse(Filter.till_date_of_registration))
