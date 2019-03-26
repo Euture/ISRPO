@@ -9,7 +9,6 @@ namespace ISRPO
 {
     class Program
     {
-
         static void Main(string[] args)
         {
            // Главное меню программы
@@ -69,7 +68,7 @@ namespace ISRPO
             "Спецтехника"
         };
 
-        // Структура "Автомобиль"
+        // "Автомобиль"
         public struct Car
         {
             public string mark;                   // Марка
@@ -78,8 +77,15 @@ namespace ISRPO
             public DateTime date_of_manufacture;  // Дата производства
             public DateTime date_of_registration; // Дата регистрации
             
-            // Создание нового объекта. Входными параметрами являются марка, производитель, тип, дата производства и дата регистрации.
+            // Создание нового объекта
             public Car(string mark, string manufacturer, string type, DateTime date_of_manufacture, DateTime date_of_registration)
+            /* 
+                Параметры:
+                    mark                - марка авто
+                    manufacturer        - производитель авто
+                    date_of_manufacture - дата производства
+                    date_of_registation - дата регистрации
+            */
             {
                 this.mark = mark;
                 this.manufacturer = manufacturer;
@@ -90,16 +96,16 @@ namespace ISRPO
 
         }
 
-        // Структура "Фильтр"
+        // "Фильтр"
         public struct FilterStruct
         {
-            public string mark;                            // Марка
-            public string manufacturer;                    // Производитель
-            public string type;                            // Тип
-            public string since_date_of_manufacture;     // Дата производства начало
-            public string till_date_of_manufacture;      // Дата производства окончание
-            public string since_date_of_registration;    // Дата регистрации начало
-            public string till_date_of_registration;     // Дата регистрации окончание
+            public string mark;                         // Марка
+            public string manufacturer;                 // Производитель
+            public string type;                         // Тип
+            public string since_date_of_manufacture;    // Дата производства начало
+            public string till_date_of_manufacture;     // Дата производства окончание
+            public string since_date_of_registration;   // Дата регистрации начало
+            public string till_date_of_registration;    // Дата регистрации окончание
 
             // Ввод значений фильтра
             public void InputFilterValues()
@@ -117,29 +123,29 @@ namespace ISRPO
                 // Считываем выбранный пункт
                 char ch = char.Parse(Console.ReadLine());
 
-                string buffer = null;
-
                 // Действие в зависимости от введенного значения
                 switch (ch)
                 {
-                    case '1': // Вводим значение для марки
+                    case '1':
+                        // Вводим значение для марки
                         Console.WriteLine("Марка: ");
                         this.mark = Console.ReadLine();
                         break;
 
-                    case '2':// Вводим значения для производетеля
+                    case '2':
+                        // Вводим значения для производителя
                         Console.WriteLine("Производитель: ");
                         this.manufacturer = Console.ReadLine();
                         break;
 
-                    case '3':// Вводим значения для типа
+                    case '3':
+                        // Вводим значения для типа
                         // Выводим варианты
                         Console.WriteLine("Тип авто : ");
                         for (int i = 0; i < TYPES.Length; i++)
                         {
                             Console.WriteLine("  " + (i + 1) + "." + TYPES[i]);
                         }
-
                         // Пробуем найти этот тип
                         try
                         {
@@ -152,22 +158,26 @@ namespace ISRPO
                         }
                         break;
 
-                    case '4':// Вводим дату производства минимальную
+                    case '4':
+                        // Вводим дату производства минимальную
                         Console.WriteLine("Дата производства минимальная (dd.mm.yyyy) : ");
                         this.since_date_of_manufacture = Console.ReadLine();                  
                         break;
 
-                    case '5':// Вводим дату производства максимальную
+                    case '5':
+                        // Вводим дату производства максимальную
                         Console.WriteLine("Дата производства максимальная (dd.mm.yyyy) : ");
                         this.till_date_of_manufacture =Console.ReadLine();
                         break;
 
-                    case '6':// Вводим дату регистрации минимальную
+                    case '6':
+                        // Вводим дату регистрации минимальную
                         Console.WriteLine("Дата регистрации минимальная (dd.mm.yyyy) : ");
                         this.since_date_of_registration = Console.ReadLine();
                         break;
 
-                    case '7':// Вводим дату регистрации максимальную
+                    case '7':
+                        // Вводим дату регистрации максимальную
                         Console.WriteLine("Дата регистрации максимальная (dd.mm.yyyy) : ");
                         this.till_date_of_registration = Console.ReadLine();
                         break;
@@ -198,21 +208,22 @@ namespace ISRPO
         // Ввод нового Автомобиля
         public static void NewCar()
         {
+            //  Вывод строки пояснения
             Console.WriteLine("Ввод нового автомобиля");
 
+            // Марка
             Console.WriteLine("Марка: ");
             string mark = Console.ReadLine();
 
             Console.WriteLine("Производитель: ");
             string manufacturer = Console.ReadLine();
 
-            // Выводим варианты типов
+            // Тип авто
             Console.WriteLine("Тип авто : ");
             for (int i = 0; i < TYPES.Length; i++)
             {
                 Console.WriteLine("  " + (i + 1) + "." + TYPES[i]);
             }
-
             // Пробуем найти этот тип в списке
             string type = "";
             try
@@ -225,9 +236,11 @@ namespace ISRPO
                 return;
             }
             
+            // Дата производства
             Console.WriteLine("Дата производства (dd.mm.yyyy) : ");
             DateTime date_of_manufacture = DateTime.Parse(Console.ReadLine());
 
+            // Дата регистрации
             Console.WriteLine("Дата регистрации (dd.mm.yyyy) : ");
             DateTime date_of_registration = DateTime.Parse(Console.ReadLine());
             
@@ -241,12 +254,15 @@ namespace ISRPO
             {
                 Console.WriteLine("Ошибка добавления! Данные не корректны");
             }
-
             Console.ReadLine();
         }
 
-        // Метод вывода списка всех элементов на входе Список<Car> для вывода
+        // Метод вывода списка элементов
         static public void PrintCars(List<Car> Cars)
+        /*
+            Параметры:
+                Cars - список авто для вывода
+        */
         {
             foreach (Car El in Cars)
             {
@@ -268,6 +284,11 @@ namespace ISRPO
 
         //  Метод вывода отфильтрованного списка элементов 
         static public void PrintFilteredCars(List<Car> Cars, FilterStruct Filter)
+        /*
+            Параметры:
+                Cars    - список авто для фильтрации
+                Filter  - фильтра по которому происходит фильтрация
+        */
         {
             // Если фильтр сброшен
             if (!Filter.ChangedValues())
@@ -317,6 +338,7 @@ namespace ISRPO
             // Сортируем входной список
             foreach (Car El in Cars)
             {
+                // Если марка не пустое(стандартное) значение
                 if (!default_mark)
                 {
                     // Содержится ли подстрока
@@ -325,7 +347,8 @@ namespace ISRPO
                     if (matches.Count == 0)
                         continue;
                 }
-                
+
+                // Если производитель не пустое(стандартное) значение
                 if (!default_manufacturer)
                 {
                     // Ищем совпадения в строке
@@ -334,6 +357,7 @@ namespace ISRPO
                         continue;
                 }
 
+                // Если тип не пустое(стандартное) значение
                 if (!default_type)
                 {
                     // Ищем совпаднеия в строке
@@ -341,13 +365,15 @@ namespace ISRPO
                         continue;
                 }
 
+                // Если дата производства минимальная не пустое(стандартное) значение
                 if (!default_since_date_of_manufacture)
                 {
                     // Дата производства раньше минимальной даты(даты С) - то пропускаем
                     if (El.date_of_manufacture < DateTime.Parse(Filter.since_date_of_manufacture))
                         continue;
                 }
-            
+
+                // Если дата производство максимальное не пустое(стандартное) значение
                 if (!default_till_date_of_manufacture)
                 {
                     // Дата производства позже максимальной даты(даты С) - то пропускаем
@@ -355,6 +381,7 @@ namespace ISRPO
                         continue;
                 }
 
+                // Если дата регистрации минимальная не пустое(стандартное) значение
                 if (!default_since_date_of_registration)
                 {
                     // Дата регистрации раньше минимальной даты(даты С) - то пропускаем
@@ -362,6 +389,7 @@ namespace ISRPO
                         continue;
                 }
 
+                // Если дата регистрации максимальное не пустое(стандартное) значение
                 if (!default_till_date_of_registration)
                 {
                     // Дата регистрации позже максимальной даты(даты С) - то пропускаем
