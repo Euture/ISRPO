@@ -68,7 +68,7 @@ namespace ISRPO
             "Спецтехника"
         };
 
-        // "Автомобиль"
+        // Автомобиль
         public struct Car
         {
             public string mark;                   // Марка
@@ -96,7 +96,7 @@ namespace ISRPO
 
         }
 
-        // "Фильтр"
+        // Фильтр
         public struct FilterStruct
         {
             public string mark;                         // Марка
@@ -214,7 +214,8 @@ namespace ISRPO
             // Марка
             Console.WriteLine("Марка: ");
             string mark = Console.ReadLine();
-
+           
+            // Производитель 
             Console.WriteLine("Производитель: ");
             string manufacturer = Console.ReadLine();
 
