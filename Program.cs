@@ -310,6 +310,7 @@ namespace ISRPO
 
             // Регулярные выражения
             Regex regex_mark = null, regex_manufacturer = null;
+
             // Результат поиска по регулярному выражению
             MatchCollection matches;
 
