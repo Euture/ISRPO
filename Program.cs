@@ -257,7 +257,7 @@ namespace ISRPO
             Console.ReadLine();
         }
 
-        // Метод вывода списка элементов
+        // Вывода списка элементов
         static public void PrintCars(List<Car> Cars)
         /*
             Параметры:
@@ -282,7 +282,7 @@ namespace ISRPO
         }
 
 
-        //  Метод вывода отфильтрованного списка элементов 
+        //  Вывода отфильтрованного списка элементов 
         static public void PrintFilteredCars(List<Car> Cars, FilterStruct Filter)
         /*
             Параметры:
