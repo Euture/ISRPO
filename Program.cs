@@ -33,18 +33,22 @@ namespace ISRPO
                         // Ввод нового элемента.
                         NewCar();
                         break;
+
                     case '2': 
                         // Вывод списка элементов.
                         PrintCars(Cars);
                         break;
+
                     case '3': 
                         // Вывод отфильтрованного списка.
                         PrintFilteredCars(Cars, Filter);
                         break;
+
                     case '4': 
                         // Ввод значения фильтра.
                         Filter.InputFilterValues();
                         break;
+
                     case '0': 
                         // Выход 
                         Environment.Exit(0);
@@ -116,7 +120,7 @@ namespace ISRPO
             // Ввод значений фильтра
             public void InputFilterValues()
             {
-                // Меню вывода меню фильтра полей
+                // Вывод меню полей фильтра 
                 Console.WriteLine("Поле фильтра для ввода значения: ");
                 Console.WriteLine("1.Марка");
                 Console.WriteLine("2.Производитель");
@@ -264,7 +268,7 @@ namespace ISRPO
             Console.ReadLine();
         }
 
-        // Вывода списка элементов
+        // Вывод списка элементов
         static public void PrintCars(List<Car> Cars)
         /*
             Параметры:
@@ -289,7 +293,7 @@ namespace ISRPO
         }
 
 
-        // Вывода отфильтрованного списка элементов 
+        // Вывод отфильтрованного списка элементов 
         static public void PrintFilteredCars(List<Car> Cars, FilterStruct Filter)
         /*
             Параметры:
@@ -403,7 +407,7 @@ namespace ISRPO
                         continue;
                 }
 
-                // Если мы тут то все поля удовлетворяют
+                // Если мы тут, то все поля удовлетворяют
                 result.Add(El);
             }
 
