@@ -50,6 +50,7 @@ namespace ISRPO
 
         // Пустые значения в фильтре
         static List<String> EMPTY_VALUES = new List<String> { null, "" }; 
+
         // Список всех Автомобилей
         static List <Car> Cars = new List<Car>();
 
@@ -208,7 +209,7 @@ namespace ISRPO
         // Ввод нового Автомобиля
         public static void NewCar()
         {
-            //  Вывод строки пояснения
+            // Вывод строки пояснения
             Console.WriteLine("Ввод нового автомобиля");
 
             // Марка
@@ -283,7 +284,7 @@ namespace ISRPO
         }
 
 
-        //  Вывода отфильтрованного списка элементов 
+        // Вывода отфильтрованного списка элементов 
         static public void PrintFilteredCars(List<Car> Cars, FilterStruct Filter)
         /*
             Параметры:
