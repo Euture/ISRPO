@@ -29,19 +29,24 @@ namespace ISRPO
                 // Выбираем действие в зависимости от выбранного пункта меню
                 switch (ch)
                 {
-                    case '1': // Ввод нового элемента.
+                    case '1': 
+                        // Ввод нового элемента.
                         NewCar();
                         break;
-                    case '2': // Вывод списка элементов.
+                    case '2': 
+                        // Вывод списка элементов.
                         PrintCars(Cars);
                         break;
-                    case '3': // Вывод отфильтрованного списка.
+                    case '3': 
+                        // Вывод отфильтрованного списка.
                         PrintFilteredCars(Cars, Filter);
                         break;
-                    case '4': // Ввод значения фильтра.
+                    case '4': 
+                        // Ввод значения фильтра.
                         Filter.InputFilterValues();
                         break;
-                    case '0': // Выход 
+                    case '0': 
+                        // Выход 
                         Environment.Exit(0);
                         break;
                 }
