@@ -305,19 +305,21 @@ namespace ISRPO
                 return;
             }
 
-            // Результирующий список
-            List<Car> result = new List<Car>();
-
+            // Признаки на пустоe(стандартное) значение
+            Boolean default_mark = false,   
+                    default_manufacturer = false, 
+                    default_type = false,   
+                    default_since_date_of_manufacture = false,  
+                    default_till_date_of_manufacture = false, 
+                    default_since_date_of_registration = false, 
+                    default_till_date_of_registration = false;
             // Регулярные выражения
-            Regex regex_mark = null, regex_manufacturer = null;
-
+            Regex regex_mark = null;
+            Regex regex_manufacturer = null;
             // Результат поиска по регулярному выражению
             MatchCollection matches;
-
-            // Признаки на пустоe(стандартное) значение
-            Boolean default_mark = false, default_manufacturer = false, default_type = false, 
-                    default_since_date_of_manufacture = false, default_till_date_of_manufacture = false, 
-                    default_since_date_of_registration = false, default_till_date_of_registration = false;
+            // Результирующий список
+            List<Car> result = new List<Car>();
 
             // Устанавливаем признаки 
             if (EMPTY_VALUES.Contains(Filter.mark))
@@ -343,10 +345,10 @@ namespace ISRPO
             if (EMPTY_VALUES.Contains(Filter.till_date_of_registration))
                 default_till_date_of_registration = true;
             
-            // Сортируем входной список
+            // Фильтруем входной список
             foreach (Car El in Cars)
             {
-                // Если марка не пустое(стандартное) значение
+                // Марка
                 if (!default_mark)
                 {
                     // Содержится ли подстрока
@@ -356,7 +358,7 @@ namespace ISRPO
                         continue;
                 }
 
-                // Если производитель не пустое(стандартное) значение
+                // Производитель
                 if (!default_manufacturer)
                 {
                     // Ищем совпадения в строке
@@ -365,7 +367,7 @@ namespace ISRPO
                         continue;
                 }
 
-                // Если тип не пустое(стандартное) значение
+                // Тип авто
                 if (!default_type)
                 {
                     // Ищем совпаднеия в строке
@@ -373,15 +375,13 @@ namespace ISRPO
                         continue;
                 }
 
-                // Если дата производства минимальная не пустое(стандартное) значение
+                // Дата производства
                 if (!default_since_date_of_manufacture)
                 {
                     // Дата производства раньше минимальной даты(даты С) - то пропускаем
                     if (El.date_of_manufacture < DateTime.Parse(Filter.since_date_of_manufacture))
                         continue;
                 }
-
-                // Если дата производство максимальное не пустое(стандартное) значение
                 if (!default_till_date_of_manufacture)
                 {
                     // Дата производства позже максимальной даты(даты С) - то пропускаем
@@ -389,15 +389,13 @@ namespace ISRPO
                         continue;
                 }
 
-                // Если дата регистрации минимальная не пустое(стандартное) значение
+                // Дата регистрации
                 if (!default_since_date_of_registration)
                 {
                     // Дата регистрации раньше минимальной даты(даты С) - то пропускаем
                     if (El.date_of_registration < DateTime.Parse(Filter.since_date_of_registration))
                         continue;
                 }
-
-                // Если дата регистрации максимальное не пустое(стандартное) значение
                 if (!default_till_date_of_registration)
                 {
                     // Дата регистрации позже максимальной даты(даты С) - то пропускаем
