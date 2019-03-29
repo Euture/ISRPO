@@ -11,7 +11,7 @@ namespace ISRPO
     {
         static void Main(string[] args)
         {
-           // Главное меню программы
+            // Главное меню программы
             while (true)
             {
                 // Выводим меню
@@ -29,27 +29,27 @@ namespace ISRPO
                 // Выбираем действие в зависимости от выбранного пункта меню
                 switch (ch)
                 {
-                    case '1': 
+                    case '1':
                         // Ввод нового элемента.
-                        NewCar();
+                        Car.NewCar();
                         break;
 
-                    case '2': 
+                    case '2':
                         // Вывод списка элементов.
-                        PrintCars(Cars);
+                        Car.PrintCars(Cars);
                         break;
 
-                    case '3': 
-                        // Вывод отфильтрованного списка.
-                        PrintFilteredCars(Cars, Filter);
+                    case '3':
+                        // Вывод отфильтрованного списка
+                        Car.PrintFilteredCars(Cars, Filter);
                         break;
 
-                    case '4': 
+                    case '4':
                         // Ввод значения фильтра.
                         Filter.InputFilterValues();
                         break;
 
-                    case '0': 
+                    case '0':
                         // Выход 
                         Environment.Exit(0);
                         break;
@@ -58,10 +58,10 @@ namespace ISRPO
         }
 
         // Пустые значения в фильтре
-        static List<String> EMPTY_VALUES = new List<String> { null, "" }; 
+        static List<String> EMPTY_VALUES = new List<String> { null, "" };
 
         // Список всех Автомобилей
-        static List <Car> Cars = new List<Car>();
+        static List<Car> Cars = new List<Car>();
 
         // Значения фильтра
         static FilterStruct Filter = new FilterStruct();
@@ -86,13 +86,14 @@ namespace ISRPO
             public string type;                   // Тип
             public DateTime date_of_manufacture;  // Дата производства
             public DateTime date_of_registration; // Дата регистрации
-            
+
             // Создание нового объекта
             public Car(string mark, string manufacturer, string type, DateTime date_of_manufacture, DateTime date_of_registration)
             /* 
                 Параметры:
                     mark                - марка авто
                     manufacturer        - производитель авто
+                    type                - тип авто
                     date_of_manufacture - дата производства
                     date_of_registation - дата регистрации
             */
@@ -104,6 +105,204 @@ namespace ISRPO
                 this.date_of_registration = date_of_registration;
             }
 
+            // Ввод нового Автомобиля
+            public static void NewCar()
+            {
+                // Вывод строки пояснения
+                Console.WriteLine("Ввод нового автомобиля");
+
+                // Марка
+                Console.WriteLine("Марка: ");
+                string mark = Console.ReadLine();
+
+                // Производитель 
+                Console.WriteLine("Производитель: ");
+                string manufacturer = Console.ReadLine();
+
+                // Тип авто
+                Console.WriteLine("Тип авто : ");
+                for (int i = 0; i < TYPES.Length; i++)
+                {
+                    Console.WriteLine("  " + (i + 1) + "." + TYPES[i]);
+                }
+                // Пробуем найти этот тип в списке
+                string type = "";
+                try
+                {
+                    type = TYPES[int.Parse(Console.ReadLine()) - 1];
+                }
+                catch
+                {
+                    Console.WriteLine("Ошибка добавления! Данные не корректны");
+                    return;
+                }
+
+                // Дата производства
+                Console.WriteLine("Дата производства (dd.mm.yyyy) : ");
+                DateTime date_of_manufacture = DateTime.Parse(Console.ReadLine());
+
+                // Дата регистрации
+                Console.WriteLine("Дата регистрации (dd.mm.yyyy) : ");
+                DateTime date_of_registration = DateTime.Parse(Console.ReadLine());
+
+                // Пробуем добавить новый объект
+                try
+                {
+                    Cars.Add(new Car(mark, manufacturer, type, date_of_manufacture, date_of_registration));
+                    Console.WriteLine("Автомобиль успешно добавлен");
+                }
+                catch
+                {
+                    Console.WriteLine("Ошибка добавления! Данные не корректны");
+                }
+                Console.ReadLine();
+            }
+
+            // Вывод списка элементов
+            static public void PrintCars(List<Car> Cars)
+            /*
+                Параметры:
+                    Cars - список авто для вывода
+            */
+            {
+                foreach (Car El in Cars)
+                {
+                    Console.Write("Марка: ");
+                    Console.WriteLine(El.mark);
+                    Console.Write("Производитель: ");
+                    Console.WriteLine(El.manufacturer);
+                    Console.Write("Тип авто : ");
+                    Console.WriteLine(El.type);
+                    Console.Write("Дата производства (dd.mm.yyyy) : ");
+                    Console.WriteLine(El.date_of_manufacture.ToString("d"));
+                    Console.Write("Дата регистрации (dd.mm.yyyy) : ");
+                    Console.WriteLine(El.date_of_registration.ToString("d"));
+                    Console.WriteLine();
+                }
+                Console.ReadLine();
+            }
+
+            // Вывод отфильтрованного списка элементов 
+            static public void PrintFilteredCars(List<Car> Cars, FilterStruct Filter)
+            /*
+                Параметры:
+                    Cars    - список авто для фильтрации
+                    Filter  - фильтра по которому происходит фильтрация
+            */
+            {
+                // Если фильтр сброшен
+                if (!Filter.ChangedValues())
+                {
+                    // Выводим входной список
+                    PrintCars(Cars);
+                    return;
+                }
+
+                // Признаки на пустоe(стандартное) значение
+                Boolean default_mark = false,
+                        default_manufacturer = false,
+                        default_type = false,
+                        default_since_date_of_manufacture = false,
+                        default_till_date_of_manufacture = false,
+                        default_since_date_of_registration = false,
+                        default_till_date_of_registration = false;
+                // Регулярные выражения
+                Regex regex_mark = null;
+                Regex regex_manufacturer = null;
+                // Результат поиска по регулярному выражению
+                MatchCollection matches;
+                // Результирующий список
+                List<Car> result = new List<Car>();
+
+                // Устанавливаем признаки 
+                if (EMPTY_VALUES.Contains(Filter.mark))
+                    default_mark = true;
+                else
+                {
+                    regex_mark = new Regex(Filter.mark); // Регулярное выражения на основе введенного поля фильтра
+                }
+                if (EMPTY_VALUES.Contains(Filter.manufacturer))
+                    default_manufacturer = true;
+                else
+                {
+                    regex_manufacturer = new Regex(Filter.manufacturer); // Регулярное выражения на основе введенного поля фильтра
+                }
+                if (EMPTY_VALUES.Contains(Filter.type))
+                    default_type = true;
+                if (EMPTY_VALUES.Contains(Filter.since_date_of_manufacture))
+                    default_since_date_of_manufacture = true;
+                if (EMPTY_VALUES.Contains(Filter.till_date_of_manufacture))
+                    default_till_date_of_manufacture = true;
+                if (EMPTY_VALUES.Contains(Filter.since_date_of_registration))
+                    default_since_date_of_registration = true;
+                if (EMPTY_VALUES.Contains(Filter.till_date_of_registration))
+                    default_till_date_of_registration = true;
+
+                // Фильтруем входной список
+                foreach (Car El in Cars)
+                {
+                    // Марка
+                    if (!default_mark)
+                    {
+                        // Содержится ли подстрока
+                        // "ud" содержится в "Audi" 
+                        matches = regex_mark.Matches(El.mark);
+                        if (matches.Count == 0)
+                            continue;
+                    }
+
+                    // Производитель
+                    if (!default_manufacturer)
+                    {
+                        // Ищем совпадения в строке
+                        matches = regex_manufacturer.Matches(El.manufacturer);
+                        if (matches.Count == 0)
+                            continue;
+                    }
+
+                    // Тип авто
+                    if (!default_type)
+                    {
+                        // Ищем совпаднеия в строке
+                        if (Filter.type.Length > 0 & El.type != Filter.type)
+                            continue;
+                    }
+
+                    // Дата производства
+                    if (!default_since_date_of_manufacture)
+                    {
+                        // Дата производства раньше минимальной даты(даты С) - то пропускаем
+                        if (El.date_of_manufacture < DateTime.Parse(Filter.since_date_of_manufacture))
+                            continue;
+                    }
+                    if (!default_till_date_of_manufacture)
+                    {
+                        // Дата производства позже максимальной даты(даты С) - то пропускаем
+                        if (El.date_of_manufacture > DateTime.Parse(Filter.till_date_of_manufacture))
+                            continue;
+                    }
+
+                    // Дата регистрации
+                    if (!default_since_date_of_registration)
+                    {
+                        // Дата регистрации раньше минимальной даты(даты С) - то пропускаем
+                        if (El.date_of_registration < DateTime.Parse(Filter.since_date_of_registration))
+                            continue;
+                    }
+                    if (!default_till_date_of_registration)
+                    {
+                        // Дата регистрации позже максимальной даты(даты С) - то пропускаем
+                        if (El.date_of_registration > DateTime.Parse(Filter.till_date_of_registration))
+                            continue;
+                    }
+
+                    // Если мы тут, то все поля удовлетворяют
+                    result.Add(El);
+                }
+
+                // Выводим отфильтрованный список
+                PrintCars(result);
+            }
         }
 
         // Фильтр
@@ -171,13 +370,13 @@ namespace ISRPO
                     case '4':
                         // Вводим дату производства минимальную
                         Console.WriteLine("Дата производства минимальная (dd.mm.yyyy) : ");
-                        this.since_date_of_manufacture = Console.ReadLine();                  
+                        this.since_date_of_manufacture = Console.ReadLine();
                         break;
 
                     case '5':
                         // Вводим дату производства максимальную
                         Console.WriteLine("Дата производства максимальная (dd.mm.yyyy) : ");
-                        this.till_date_of_manufacture =Console.ReadLine();
+                        this.till_date_of_manufacture = Console.ReadLine();
                         break;
 
                     case '6':
@@ -213,206 +412,6 @@ namespace ISRPO
                     return true;
                 return false;
             }
-        }
-
-        // Ввод нового Автомобиля
-        public static void NewCar()
-        {
-            // Вывод строки пояснения
-            Console.WriteLine("Ввод нового автомобиля");
-
-            // Марка
-            Console.WriteLine("Марка: ");
-            string mark = Console.ReadLine();
-           
-            // Производитель 
-            Console.WriteLine("Производитель: ");
-            string manufacturer = Console.ReadLine();
-
-            // Тип авто
-            Console.WriteLine("Тип авто : ");
-            for (int i = 0; i < TYPES.Length; i++)
-            {
-                Console.WriteLine("  " + (i + 1) + "." + TYPES[i]);
-            }
-            // Пробуем найти этот тип в списке
-            string type = "";
-            try
-            {
-                type = TYPES[int.Parse(Console.ReadLine()) - 1];
-            }
-            catch
-            {
-                Console.WriteLine("Ошибка добавления! Данные не корректны");
-                return;
-            }
-            
-            // Дата производства
-            Console.WriteLine("Дата производства (dd.mm.yyyy) : ");
-            DateTime date_of_manufacture = DateTime.Parse(Console.ReadLine());
-
-            // Дата регистрации
-            Console.WriteLine("Дата регистрации (dd.mm.yyyy) : ");
-            DateTime date_of_registration = DateTime.Parse(Console.ReadLine());
-            
-            // Пробуем добавить новый объект
-            try
-            {
-                Cars.Add(new Car(mark, manufacturer, type, date_of_manufacture, date_of_registration));
-                Console.WriteLine("Автомобиль успешно добавлен");
-            }
-            catch
-            {
-                Console.WriteLine("Ошибка добавления! Данные не корректны");
-            }
-            Console.ReadLine();
-        }
-
-        // Вывод списка элементов
-        static public void PrintCars(List<Car> Cars)
-        /*
-            Параметры:
-                Cars - список авто для вывода
-        */
-        {
-            foreach (Car El in Cars)
-            {
-                Console.Write("Марка: ");
-                Console.WriteLine(El.mark);
-                Console.Write("Производитель: ");
-                Console.WriteLine(El.manufacturer);
-                Console.Write("Тип авто : ");
-                Console.WriteLine(El.type);
-                Console.Write("Дата производства (dd.mm.yyyy) : ");
-                Console.WriteLine(El.date_of_manufacture.ToString("d"));
-                Console.Write("Дата регистрации (dd.mm.yyyy) : ");
-                Console.WriteLine(El.date_of_registration.ToString("d"));
-                Console.WriteLine();
-            }
-            Console.ReadLine();
-        }
-
-
-        // Вывод отфильтрованного списка элементов 
-        static public void PrintFilteredCars(List<Car> Cars, FilterStruct Filter)
-        /*
-            Параметры:
-                Cars    - список авто для фильтрации
-                Filter  - фильтра по которому происходит фильтрация
-        */
-        {
-            // Если фильтр сброшен
-            if (!Filter.ChangedValues())
-            {
-                // Выводим входной список
-                PrintCars(Cars);
-                return;
-            }
-
-            // Признаки на пустоe(стандартное) значение
-            Boolean default_mark = false,   
-                    default_manufacturer = false, 
-                    default_type = false,   
-                    default_since_date_of_manufacture = false,  
-                    default_till_date_of_manufacture = false, 
-                    default_since_date_of_registration = false, 
-                    default_till_date_of_registration = false;
-            // Регулярные выражения
-            Regex regex_mark = null;
-            Regex regex_manufacturer = null;
-            // Результат поиска по регулярному выражению
-            MatchCollection matches;
-            // Результирующий список
-            List<Car> result = new List<Car>();
-
-            // Устанавливаем признаки 
-            if (EMPTY_VALUES.Contains(Filter.mark))
-                default_mark = true;
-            else
-            {
-                regex_mark= new Regex(Filter.mark); // Регулярное выражения на основе введенного поля фильтра
-            }
-            if (EMPTY_VALUES.Contains(Filter.manufacturer))
-                default_manufacturer = true;
-            else
-            {
-                regex_manufacturer = new Regex(Filter.manufacturer); // Регулярное выражения на основе введенного поля фильтра
-            }
-            if (EMPTY_VALUES.Contains(Filter.type))
-                default_type = true;
-            if (EMPTY_VALUES.Contains(Filter.since_date_of_manufacture))
-                default_since_date_of_manufacture = true;
-            if (EMPTY_VALUES.Contains(Filter.till_date_of_manufacture))
-                default_till_date_of_manufacture = true;
-            if (EMPTY_VALUES.Contains(Filter.since_date_of_registration))
-                default_since_date_of_registration = true;
-            if (EMPTY_VALUES.Contains(Filter.till_date_of_registration))
-                default_till_date_of_registration = true;
-            
-            // Фильтруем входной список
-            foreach (Car El in Cars)
-            {
-                // Марка
-                if (!default_mark)
-                {
-                    // Содержится ли подстрока
-                    // "ud" содержится в "Audi" 
-                    matches = regex_mark.Matches(El.mark);
-                    if (matches.Count == 0)
-                        continue;
-                }
-
-                // Производитель
-                if (!default_manufacturer)
-                {
-                    // Ищем совпадения в строке
-                    matches = regex_manufacturer.Matches(El.manufacturer);
-                    if (matches.Count == 0)
-                        continue;
-                }
-
-                // Тип авто
-                if (!default_type)
-                {
-                    // Ищем совпаднеия в строке
-                    if (Filter.type.Length > 0 & El.type != Filter.type)
-                        continue;
-                }
-
-                // Дата производства
-                if (!default_since_date_of_manufacture)
-                {
-                    // Дата производства раньше минимальной даты(даты С) - то пропускаем
-                    if (El.date_of_manufacture < DateTime.Parse(Filter.since_date_of_manufacture))
-                        continue;
-                }
-                if (!default_till_date_of_manufacture)
-                {
-                    // Дата производства позже максимальной даты(даты С) - то пропускаем
-                    if (El.date_of_manufacture > DateTime.Parse(Filter.till_date_of_manufacture))
-                        continue;
-                }
-
-                // Дата регистрации
-                if (!default_since_date_of_registration)
-                {
-                    // Дата регистрации раньше минимальной даты(даты С) - то пропускаем
-                    if (El.date_of_registration < DateTime.Parse(Filter.since_date_of_registration))
-                        continue;
-                }
-                if (!default_till_date_of_registration)
-                {
-                    // Дата регистрации позже максимальной даты(даты С) - то пропускаем
-                    if (El.date_of_registration > DateTime.Parse(Filter.till_date_of_registration))
-                        continue;
-                }
-
-                // Если мы тут, то все поля удовлетворяют
-                result.Add(El);
-            }
-
-            // Выводим отфильтрованный список
-            PrintCars(result);
         }
     }
 }
