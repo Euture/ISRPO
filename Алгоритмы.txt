@@ -1,0 +1,42 @@
+EMPTY_VALUES = [null, ""] - значения, которые мы считаем пустыми(стандартными)
+n_empty_values = 2 - размер EMPTY_VALUES 
+
+Cars = [....] - список авто
+n_cars = size(Cars) - размер Cars
+
+Filter - фильтр
+n_filter_fields - количество полей фильтра (в нашем случае 7)
+
+----------------------------------------------------------------------------------------
+
+for Car in Cars:
+	if not (Filter.field[1] in EMPTY_VALUES):
+		Car.field[1] == Filter.field[1]
+	........................................
+	if not (Filter.field_k in EMPTY_VALUES):
+		Car.field[n_filter_fields] == Filter.field[n_filter_fields]
+		
+N1 = n_cars * (n_filter_fields * n_empty_values)
+
+----------------------------------------------------------------------------------------
+
+default_field[1] = Filter.field[1] in EMPTY_VALUES
+..............................................................................
+default_field[n_filter_fields] = Filter.field[n_filter_fields] in EMPTY_VALUES
+
+for Car in Cars:
+	if not default_field[1]:
+		Car.field[1] == Filter.field[1]
+	.....................................
+	if not default_field[n_filter_fields]:
+		Car.field[n_filter_fields] == Filter.field[n_filter_fields]
+		
+N2 = (n_filter_fields * n_empty_values) + (n_cars * n_filter_fields)
+
+-----------------------------------------------------------------------------------------
+для 
+	n_empty_values = 2
+	n_cars = 100
+	n_filter_fields = 7
+N1 = 100 * (7 * 2) = 1400
+N2 = (7 * 2) + (100 * 7) = 714 
